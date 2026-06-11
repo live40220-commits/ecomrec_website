@@ -1,6 +1,45 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="104" fill="#fbfaf8"/>
-  <rect x="42" y="42" width="428" height="428" rx="82" fill="none" stroke="#b6805d" stroke-width="18"/>
-  <path fill="#181818" d="M117 350V162h38l54 113 54-113h38v188h-33V230l-45 92h-28l-45-92v120h-33Zm220 0V162h122v31h-87v47h76v30h-76v49h90v31H337Z"/>
-  <path fill="#b6805d" d="M256 92c33 30 52 56 52 81 0 26-20 46-52 46s-52-20-52-46c0-25 19-51 52-81Z"/>
+  <!-- Deep teal background -->
+  <rect width="512" height="512" rx="96" fill="#0d3d3d"/>
+  <!-- Outer decorative border ring -->
+  <rect x="22" y="22" width="468" height="468" rx="80" fill="none" stroke="#C9A84C" stroke-width="10"/>
+  <!-- Inner thin border -->
+  <rect x="40" y="40" width="432" height="432" rx="68" fill="none" stroke="#C9A84C" stroke-width="3" stroke-dasharray="12 6"/>
+
+  <!-- Corner ornamental floral motifs -->
+  <!-- Top-left -->
+  <circle cx="80" cy="80" r="6" fill="#C9A84C" opacity="0.7"/>
+  <circle cx="80" cy="80" r="12" fill="none" stroke="#C9A84C" stroke-width="2" opacity="0.5"/>
+  <!-- Top-right -->
+  <circle cx="432" cy="80" r="6" fill="#C9A84C" opacity="0.7"/>
+  <circle cx="432" cy="80" r="12" fill="none" stroke="#C9A84C" stroke-width="2" opacity="0.5"/>
+  <!-- Bottom-left -->
+  <circle cx="80" cy="432" r="6" fill="#C9A84C" opacity="0.7"/>
+  <circle cx="80" cy="432" r="12" fill="none" stroke="#C9A84C" stroke-width="2" opacity="0.5"/>
+  <!-- Bottom-right -->
+  <circle cx="432" cy="432" r="6" fill="#C9A84C" opacity="0.7"/>
+  <circle cx="432" cy="432" r="12" fill="none" stroke="#C9A84C" stroke-width="2" opacity="0.5"/>
+
+  <!-- Top small decorative diamond -->
+  <polygon points="256,58 263,74 256,90 249,74" fill="#C9A84C" opacity="0.8"/>
+
+  <!-- "JC" Monogram - bold luxury lettering -->
+  <!-- J -->
+  <text x="120" y="310" font-family="Georgia, serif" font-size="210" font-weight="bold"
+        fill="#C9A84C" letter-spacing="-8">J</text>
+  <!-- C -->
+  <text x="262" y="310" font-family="Georgia, serif" font-size="210" font-weight="bold"
+        fill="#ffffff" letter-spacing="-8">C</text>
+
+  <!-- Horizontal gold divider under text -->
+  <line x1="80" y1="330" x2="432" y2="330" stroke="#C9A84C" stroke-width="2.5" opacity="0.6"/>
+
+  <!-- Brand name in small caps below -->
+  <text x="256" y="370" font-family="Georgia, serif" font-size="32" font-weight="normal"
+        fill="#C9A84C" text-anchor="middle" letter-spacing="8">JAHANARA</text>
+  <text x="256" y="405" font-family="Georgia, serif" font-size="22" font-weight="normal"
+        fill="#ffffff" text-anchor="middle" letter-spacing="12" opacity="0.85">COUTURE</text>
+
+  <!-- Bottom floral diamond -->
+  <polygon points="256,425 262,435 256,445 250,435" fill="#C9A84C" opacity="0.6"/>
 </svg>
