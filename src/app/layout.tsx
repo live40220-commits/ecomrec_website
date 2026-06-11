@@ -9,14 +9,14 @@ const sans = Manrope({ subsets: ["latin"], variable: "--font-sans", display: "sw
 const serif = Cormorant_Garamond({ subsets: ["latin"], variable: "--font-serif", display: "swap" });
 
 export const metadata: Metadata = {
-  title: { default: "Maison Elara | Premium Womenswear", template: "%s | Maison Elara" },
-  description: "A luxury, mobile-first ecommerce experience for premium ready-to-wear, chiffon, lawn, and formal collections.",
+  title: { default: "Jahanara Couture | Luxury Pakistani Heritage & Festive Wear", template: "%s | Jahanara Couture" },
+  description: "Explore Jahanara Couture's exquisite collection of luxury Pakistani suits, unstitched lawn, festive chiffon Peshwas, ready-to-wear pret kurtis, and bespoke bridal wear.",
   icons: {
     icon: "/favicon.svg"
   },
   openGraph: {
-    title: "Maison Elara",
-    description: "Quiet luxury womenswear with premium ecommerce features.",
+    title: "Jahanara Couture",
+    description: "Premium luxury Pakistani heritage and festive wear with global express delivery.",
     type: "website"
   }
 };

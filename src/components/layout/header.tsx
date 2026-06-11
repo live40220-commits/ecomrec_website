@@ -15,7 +15,7 @@ export function Header() {
   return (
     <>
       <div className="h-10 bg-[#191919] text-white">
-        <div className="container-lux flex h-full items-center justify-center text-[11px] font-bold tracking-[.28em]">FREE SHIPPING ON ORDERS OVER $150</div>
+        <div className="container-lux flex h-full items-center justify-center text-[10px] font-bold tracking-[.22em] uppercase">FREE SHIPPING IN PAKISTAN · GLOBAL EXPRESS SHIPPING OVER $350</div>
       </div>
       <header className="sticky top-0 z-40 border-b border-line bg-background/88 backdrop-blur-xl">
         <div className="container-lux grid h-24 grid-cols-3 items-center">
@@ -23,8 +23,8 @@ export function Header() {
             <Menu size={30} strokeWidth={1.6} /> Menu
           </button>
           <Link href="/" className="justify-self-center text-center">
-            <span className="block font-serif text-4xl tracking-[.28em]">ELARA</span>
-            <span className="tracked-luxury block text-[10px] text-muted">Maison</span>
+            <span className="block font-serif text-4xl tracking-[.28em]">JAHANARA</span>
+            <span className="tracked-luxury block text-[10px] text-muted">Couture</span>
           </Link>
           <nav className="flex items-center gap-5 justify-self-end">
             <Link className="hidden sm:block" href="/shop"><Search strokeWidth={1.7} /></Link>
