@@ -31,7 +31,7 @@ export default function AdminPage() {
 
   const [name, setName] = useState("");
   const [category, setCategory] = useState("Luxury Lawn");
-  const [brand, setBrand] = useState("Jahanara Heritage");
+  const [brand, setBrand] = useState("Sawera Collection");
   const [price, setPrice] = useState(0);
   const [compareAt, setCompareAt] = useState(0);
   const [badge, setBadge] = useState("");
@@ -103,7 +103,7 @@ export default function AdminPage() {
   const resetForm = () => {
     setName("");
     setCategory("Luxury Lawn");
-    setBrand("Jahanara Heritage");
+    setBrand("Sawera Collection");
     setPrice(0);
     setCompareAt(0);
     setBadge("");
@@ -231,7 +231,7 @@ export default function AdminPage() {
       <div className="flex flex-col gap-6 md:flex-row md:items-center justify-between border-b border-line pb-8 mb-8">
         <div>
           <span className="tracked-luxury text-xs text-accent">Studio Admin</span>
-          <h1 className="font-serif text-6xl">Jahanara Atelier</h1>
+          <h1 className="font-serif text-6xl">Sawera Atelier</h1>
         </div>
         <div className="flex flex-wrap gap-3">
           <Link href="/shop">
@@ -288,7 +288,7 @@ export default function AdminPage() {
                 <div className="grid gap-6 sm:grid-cols-2">
                   <label className="block text-sm font-medium">
                     Suit Name *
-                    <Input className="mt-2" placeholder="e.g. Jahanara Organza Peshwas" value={name} onChange={(e) => setName(e.target.value)} required />
+                    <Input className="mt-2" placeholder="e.g. Sawera Organza Peshwas" value={name} onChange={(e) => setName(e.target.value)} required />
                   </label>
                   <label className="block text-sm font-medium">
                     Category *
@@ -311,7 +311,7 @@ export default function AdminPage() {
                 <div className="grid gap-6 sm:grid-cols-3">
                   <label className="block text-sm font-medium">
                     Brand Name *
-                    <Input className="mt-2" placeholder="e.g. Jahanara Heritage" value={brand} onChange={(e) => setBrand(e.target.value)} required />
+                    <Input className="mt-2" placeholder="e.g. Sawera Collection" value={brand} onChange={(e) => setBrand(e.target.value)} required />
                   </label>
                   <label className="block text-sm font-medium">
                     Price (PKR) *
