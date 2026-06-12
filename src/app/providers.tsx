@@ -10,17 +10,28 @@ function StateHydrator({ children }: { children: ReactNode }) {
   const state = useSelector((s: RootState) => s.commerce);
 
   useEffect(() => {
-    // 1. Products
-    const storedProducts = localStorage.getItem("jahanara_products");
-    if (storedProducts) {
-      try {
-        dispatch(setProducts(JSON.parse(storedProducts)));
-      } catch (e) {
-        console.error("Failed to parse stored products:", e);
-      }
-    } else {
-      localStorage.setItem("jahanara_products", JSON.stringify(state.products));
-    }
+    // 1. Products (Fetch dynamically from SQLite Database)
+    fetch("/api/products")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          const mapped = data.map((p: any) => ({
+            ...p,
+            slug: p.id,
+            name: p.title,
+            images: [p.imagePath],
+            sizes: p.sizes ? p.sizes.split(", ") : ["S", "M", "L"],
+            colors: p.colors ? p.colors.split(", ") : ["Default"],
+            fabric: "Premium",
+            stock: p.inStock ? 10 : 0,
+            rating: p.rating || 5,
+            reviews: p.reviews || 1,
+            brand: p.brand || "Jahanara"
+          }));
+          dispatch(setProducts(mapped));
+        }
+      })
+      .catch((e) => console.error("Failed to fetch database products in provider:", e));
 
     // 2. User
     const storedUser = localStorage.getItem("jahanara_user");
@@ -84,15 +95,19 @@ function ThemeBoundary({ children }: { children: ReactNode }) {
   return <div className={darkMode ? "dark min-h-screen bg-background text-foreground" : "min-h-screen bg-background text-foreground"}>{children}</div>;
 }
 
+import { SessionProvider } from "next-auth/react";
+
 export function Providers({ children }: { children: ReactNode }) {
   const queryClient = useMemo(() => new QueryClient(), []);
   return (
-    <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <StateHydrator>
-          <ThemeBoundary>{children}</ThemeBoundary>
-        </StateHydrator>
-      </QueryClientProvider>
-    </Provider>
+    <SessionProvider>
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+          <StateHydrator>
+            <ThemeBoundary>{children}</ThemeBoundary>
+          </StateHydrator>
+        </QueryClientProvider>
+      </Provider>
+    </SessionProvider>
   );
 }

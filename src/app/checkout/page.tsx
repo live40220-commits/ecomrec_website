@@ -35,7 +35,7 @@ export default function CheckoutPage() {
     return acc + (p ? p.price * item.qty : 0);
   }, 0);
 
-  const handlePlaceOrder = (e: React.FormEvent) => {
+  const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
@@ -54,9 +54,7 @@ export default function CheckoutPage() {
       return;
     }
 
-    const orderId = `JHN-${Math.floor(100000 + Math.random() * 900000)}`;
-    const newOrder = {
-      id: orderId,
+    const orderData = {
       items: cart,
       total: subtotal,
       name,
@@ -64,14 +62,27 @@ export default function CheckoutPage() {
       city,
       zip,
       phone,
-      date: new Date().toLocaleDateString(),
-      status: "Processing"
+      payMethod
     };
 
-    dispatch(createOrder(newOrder));
-    dispatch(clearCart());
-    setGeneratedId(orderId);
-    setOrderPlaced(true);
+    try {
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderData)
+      });
+      const data = await res.json();
+      
+      if (res.ok) {
+        dispatch(clearCart());
+        setGeneratedId(data.orderId);
+        setOrderPlaced(true);
+      } else {
+        setError("Failed to create order: " + data.error);
+      }
+    } catch (e) {
+      setError("Network error while placing order.");
+    }
   };
 
   if (orderPlaced) {

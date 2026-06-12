@@ -5,14 +5,18 @@ import { useState } from "react";
 import { Heart, Menu, Moon, Search, ShoppingBag, Sun, User, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState, toggleDarkMode, logoutUser } from "@/store/store";
+import { RootState, toggleDarkMode } from "@/store/store";
 import { categories } from "@/data/products";
 import { CollectionSwitcher } from "./collection-switcher";
+import { useSession, signOut } from "next-auth/react";
 
 export function Header() {
   const [open, setOpen] = useState(false);
-  const { cart, wishlist, darkMode, user } = useSelector((s: RootState) => s.commerce);
+  const { cart, wishlist, darkMode } = useSelector((s: RootState) => s.commerce);
+  const { data: session } = useSession();
+  const user = session?.user as any;
   const dispatch = useDispatch();
+
   return (
     <>
       <div className="h-10 bg-[#191919] text-white">
@@ -32,13 +36,13 @@ export function Header() {
             <Link className="hidden sm:block" href="/shop"><Search strokeWidth={1.7} /></Link>
             {user ? (
               <div className="hidden sm:flex items-center gap-3 text-xs tracking-wider uppercase font-medium">
-                <span className="text-muted">Hi, {user.name.split(" ")[0]}</span>
-                {user.role === "admin" && (
+                <span className="text-muted">Hi, {user.name ? user.name.split(" ")[0] : "Customer"}</span>
+                {user.role?.toLowerCase() === "admin" && (
                   <Link href="/admin" className="text-accent border border-accent/40 rounded px-2.5 py-1.5 text-[10px] font-bold hover:bg-accent hover:text-white transition">
                     Admin
                   </Link>
                 )}
-                <button onClick={() => dispatch(logoutUser())} className="text-muted hover:text-foreground text-[10px] underline cursor-pointer">
+                <button onClick={() => signOut()} className="text-muted hover:text-foreground text-[10px] underline cursor-pointer">
                   Logout
                 </button>
               </div>
@@ -68,13 +72,13 @@ export function Header() {
               <div className="mt-8 border-t border-line pt-6 flex flex-col gap-4">
                 {user ? (
                   <>
-                    <div className="text-xs uppercase tracking-wider font-semibold text-muted">Hi, {user.name}</div>
-                    {user.role === "admin" && (
+                    <div className="text-xs uppercase tracking-wider font-semibold text-muted">Hi, {user.name || user.email}</div>
+                    {user.role?.toLowerCase() === "admin" && (
                       <Link href="/admin" onClick={() => setOpen(false)} className="text-accent text-sm uppercase tracking-wider font-medium">
                         Admin Dashboard
                       </Link>
                     )}
-                    <button onClick={() => { dispatch(logoutUser()); setOpen(false); }} className="text-left text-sm uppercase tracking-wider text-muted font-medium hover:text-foreground cursor-pointer">
+                    <button onClick={() => { signOut(); setOpen(false); }} className="text-left text-sm uppercase tracking-wider text-muted font-medium hover:text-foreground cursor-pointer">
                       Logout
                     </button>
                   </>

@@ -14,8 +14,9 @@ function ShopContent() {
   const searchParams = useSearchParams();
   const catParam = searchParams.get("category");
 
-  const { products, priceTier } = useSelector((state: RootState) => state.commerce);
+  const { priceTier } = useSelector((state: RootState) => state.commerce);
 
+  const [dbProducts, setDbProducts] = useState<any[]>([]);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
   const [brand, setBrand] = useState("All");
@@ -25,6 +26,13 @@ function ShopContent() {
   // Determine price bounds based on active tier
   const minLimit = priceTier === "simple" ? 1000 : 5000;
   const maxLimit = priceTier === "simple" ? 5000 : 100000;
+
+  useEffect(() => {
+    fetch("/api/products")
+      .then(res => res.json())
+      .then(data => setDbProducts(data))
+      .catch(err => console.error(err));
+  }, []);
 
   useEffect(() => {
     if (catParam) {
@@ -42,7 +50,7 @@ function ShopContent() {
   }, [priceTier, max]);
 
   const filtered = useMemo(() => {
-    const list = products.filter((p) => {
+    const list = dbProducts.filter((p) => {
       // 1. Price tier filter
       if (priceTier === "premium" && p.price < 5000) return false;
       if (priceTier === "simple" && p.price >= 5000) return false;
@@ -50,24 +58,24 @@ function ShopContent() {
       // 2. Search & filter controls
       return (
         (category === "All" || p.category === category) &&
-        (brand === "All" || p.brand === brand) &&
+        (brand === "All" || (p.brand || "Jahanara") === brand) &&
         p.price <= max &&
-        p.name.toLowerCase().includes(query.toLowerCase())
+        (p.title || p.name || "").toLowerCase().includes(query.toLowerCase())
       );
     });
-    return [...list].sort((a, b) => sort === "price-asc" ? a.price - b.price : sort === "price-desc" ? b.price - a.price : b.rating - a.rating);
-  }, [products, query, category, brand, max, sort, priceTier]);
+    return [...list].sort((a, b) => sort === "price-asc" ? a.price - b.price : sort === "price-desc" ? b.price - a.price : (b.rating || 5) - (a.rating || 5));
+  }, [dbProducts, query, category, brand, max, sort, priceTier]);
 
   // Filter available categories and brands for dropdown dynamically
   const availableCategories = useMemo(() => {
-    const list = products.filter(p => priceTier === "premium" ? p.price >= 5000 : p.price < 5000);
+    const list = dbProducts.filter(p => priceTier === "premium" ? p.price >= 5000 : p.price < 5000);
     return [...new Set(list.map(p => p.category))];
-  }, [products, priceTier]);
+  }, [dbProducts, priceTier]);
 
   const availableBrands = useMemo(() => {
-    const list = products.filter(p => priceTier === "premium" ? p.price >= 5000 : p.price < 5000);
-    return [...new Set(list.map(p => p.brand))];
-  }, [products, priceTier]);
+    const list = dbProducts.filter(p => priceTier === "premium" ? p.price >= 5000 : p.price < 5000);
+    return [...new Set(list.map(p => p.brand || "Jahanara"))];
+  }, [dbProducts, priceTier]);
 
   return (
     <section className="container-lux py-14">
