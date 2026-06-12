@@ -1,9 +1,31 @@
 import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Product, products as initialProducts } from "@/data/products";
 
 type Line = { id: string; qty: number; size?: string; color?: string };
-type CommerceState = { cart: Line[]; wishlist: string[]; recentlyViewed: string[]; darkMode: boolean };
+export type User = { email: string; name: string; role: "admin" | "user" };
+export type Order = { id: string; items: Line[]; total: number; name: string; address: string; city: string; zip: string; phone: string; date: string; status: string };
 
-const initialState: CommerceState = { cart: [], wishlist: [], recentlyViewed: [], darkMode: false };
+type CommerceState = {
+  cart: Line[];
+  wishlist: string[];
+  recentlyViewed: string[];
+  darkMode: boolean;
+  products: Product[];
+  user: User | null;
+  priceTier: "all" | "premium" | "simple";
+  orders: Order[];
+};
+
+const initialState: CommerceState = {
+  cart: [],
+  wishlist: [],
+  recentlyViewed: [],
+  darkMode: false,
+  products: initialProducts,
+  user: null,
+  priceTier: "all",
+  orders: []
+};
 
 const commerceSlice = createSlice({
   name: "commerce",
@@ -33,11 +55,55 @@ const commerceSlice = createSlice({
     },
     clearCart: (state) => {
       state.cart = [];
+    },
+    setProducts: (state, action: PayloadAction<Product[]>) => {
+      state.products = action.payload;
+    },
+    setOrders: (state, action: PayloadAction<Order[]>) => {
+      state.orders = action.payload;
+    },
+    addProduct: (state, action: PayloadAction<Product>) => {
+      state.products.push(action.payload);
+    },
+    updateProduct: (state, action: PayloadAction<Product>) => {
+      state.products = state.products.map(p => p.id === action.payload.id ? action.payload : p);
+    },
+    deleteProduct: (state, action: PayloadAction<string>) => {
+      state.products = state.products.filter(p => p.id !== action.payload);
+    },
+    loginUser: (state, action: PayloadAction<User>) => {
+      state.user = action.payload;
+    },
+    logoutUser: (state) => {
+      state.user = null;
+    },
+    setPriceTier: (state, action: PayloadAction<"all" | "premium" | "simple">) => {
+      state.priceTier = action.payload;
+    },
+    createOrder: (state, action: PayloadAction<Order>) => {
+      state.orders.push(action.payload);
     }
   }
 });
 
-export const { addToCart, updateQty, removeFromCart, toggleWishlist, viewProduct, toggleDarkMode, clearCart } = commerceSlice.actions;
+export const {
+  addToCart,
+  updateQty,
+  removeFromCart,
+  toggleWishlist,
+  viewProduct,
+  toggleDarkMode,
+  clearCart,
+  setProducts,
+  setOrders,
+  addProduct,
+  updateProduct,
+  deleteProduct,
+  loginUser,
+  logoutUser,
+  setPriceTier,
+  createOrder
+} = commerceSlice.actions;
 
 export const store = configureStore({ reducer: { commerce: commerceSlice.reducer } });
 export type RootState = ReturnType<typeof store.getState>;

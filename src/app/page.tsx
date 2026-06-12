@@ -1,17 +1,30 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ShieldCheck, Sparkles, Truck } from "lucide-react";
 import { ProductCard } from "@/components/commerce/product-card";
 import { SectionHeading } from "@/components/commerce/section-heading";
-import { blogPosts, categories, products, testimonials } from "@/data/products";
+import { blogPosts, categories, testimonials } from "@/data/products";
 import { Button } from "@/components/ui/button";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 export default function Home() {
-  const hero = products[0];
+  const { products, priceTier } = useSelector((state: RootState) => state.commerce);
+
+  const filteredProducts = products.filter((p) => {
+    if (priceTier === "premium") return p.price >= 5000;
+    if (priceTier === "simple") return p.price < 5000;
+    return true;
+  });
+
+  const hero = filteredProducts[0] || products[0];
+
   return (
     <>
       <section className="relative min-h-[calc(100svh-136px)] overflow-hidden">
-        <Image src={hero.images[0]} alt="Jahanara Couture Eid Collection" fill priority sizes="100vw" className="object-cover object-[50%_18%]" />
+        {hero && <Image src={hero.images[0]} alt="Jahanara Couture Eid Collection" fill priority sizes="100vw" className="object-cover object-[50%_18%]" />}
         <div className="absolute inset-0 bg-gradient-to-r from-black/58 via-black/20 to-transparent" />
         <div className="container-lux relative flex min-h-[calc(100svh-136px)] items-center pb-12 pt-20">
           <div className="max-w-2xl text-white">
@@ -30,12 +43,12 @@ export default function Home() {
       </div>
       <section className="container-lux py-20">
         <SectionHeading eyebrow="Featured" title="The Collection Edit" text="Explore our signature silhouettes, fine hand-loom fabrics, and intricately detailed embroidery designed for formal elegance." />
-        <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4 lg:gap-8">{products.slice(0, 4).map((p) => <ProductCard key={p.id} product={p} />)}</div>
+        <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4 lg:gap-8">{filteredProducts.slice(0, 4).map((p) => <ProductCard key={p.id} product={p} />)}</div>
       </section>
       <section className="container-lux grid gap-4 py-10 md:grid-cols-4">
         {categories.slice(0, 4).map((cat, i) => (
           <Link href="/shop" key={cat} className="group relative min-h-72 overflow-hidden bg-neutral-100">
-            <Image src={products[i % products.length].images[0]} alt={cat} fill sizes="25vw" className="object-cover transition duration-700 group-hover:scale-105" />
+            <Image src={(filteredProducts[i % filteredProducts.length] || products[0]).images[0]} alt={cat} fill sizes="25vw" className="object-cover transition duration-700 group-hover:scale-105" />
             <div className="absolute inset-0 bg-black/25" />
             <h3 className="tracked-luxury absolute bottom-6 left-6 right-6 text-sm text-white">{cat}</h3>
           </Link>
@@ -49,7 +62,11 @@ export default function Home() {
       </section>
       <section className="container-lux py-16">
         <SectionHeading eyebrow="Best Sellers" title="Most Desired" />
-        <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-3 lg:gap-8">{products.slice(2, 5).map((p) => <ProductCard key={p.id} product={p} />)}</div>
+        <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-3 lg:gap-8">
+          {(filteredProducts.length >= 3 ? filteredProducts.slice(1, 4) : filteredProducts).map((p) => (
+            <ProductCard key={p.id} product={p} />
+          ))}
+        </div>
       </section>
       <section className="border-y border-line py-16">
         <div className="container-lux grid gap-8 md:grid-cols-3">{[[Truck, "Worldwide Express Delivery"], [ShieldCheck, "Secure Payment Options"], [Sparkles, "Artisan Craftsmanship"]].map(([Icon, text]) => <div className="flex items-center gap-4" key={String(text)}><Icon className="text-accent" /><span className="tracked-luxury text-sm">{String(text)}</span></div>)}</div>
@@ -63,7 +80,13 @@ export default function Home() {
         <div className="grid gap-6 md:grid-cols-3">{blogPosts.map((b) => <Link href={`/blog/${b.slug}`} className="group" key={b.slug}><div className="relative aspect-[4/3] overflow-hidden"><Image src={b.image} alt={b.title} fill sizes="33vw" className="object-cover transition group-hover:scale-105" /></div><p className="tracked-luxury mt-5 text-xs text-accent">{b.category}</p><h3 className="mt-2 font-serif text-3xl">{b.title}</h3><p className="mt-2 text-muted">{b.excerpt}</p></Link>)}</div>
       </section>
       <section className="container-lux py-16">
-        <div className="grid grid-cols-2 gap-2 md:grid-cols-6">{products.slice(0, 6).map((p) => <div className="relative aspect-square overflow-hidden" key={p.id}><Image src={p.images[0]} alt="Instagram gallery" fill sizes="16vw" className="object-cover" /></div>)}</div>
+        <div className="grid grid-cols-2 gap-2 md:grid-cols-6">
+          {(filteredProducts.length >= 6 ? filteredProducts.slice(0, 6) : products.slice(0, 6)).map((p) => (
+            <div className="relative aspect-square overflow-hidden" key={p.id}>
+              <Image src={p.images[0]} alt="Instagram gallery" fill sizes="16vw" className="object-cover" />
+            </div>
+          ))}
+        </div>
       </section>
       <section className="container-lux pb-16">
         <SectionHeading eyebrow="FAQ" title="Before You Order" />

@@ -3,14 +3,33 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Heart, Star, ZoomIn } from "lucide-react";
-import { Product, products } from "@/data/products";
+import { Product } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, RootState, toggleWishlist, viewProduct } from "@/store/store";
 import { ProductCard } from "./product-card";
+import Link from "next/link";
 
-export function ProductDetailClient({ product }: { product: Product }) {
+export function ProductDetailClient({ initialProduct, slug }: { initialProduct?: Product; slug: string }) {
+  const { products, priceTier } = useSelector((s: RootState) => s.commerce);
+  const product = products.find((p) => p.slug === slug) || initialProduct;
+
+  if (!product) {
+    return (
+      <div className="container-lux py-24 text-center">
+        <p className="text-muted mb-4 font-serif text-2xl">Looking for Jahanara creations...</p>
+        <Link href="/shop" className="text-accent underline uppercase tracking-wider text-xs font-semibold">
+          Back to collections
+        </Link>
+      </div>
+    );
+  }
+
+  return <ProductDetailContent product={product} priceTier={priceTier} products={products} />;
+}
+
+function ProductDetailContent({ product, priceTier, products }: { product: Product; priceTier: string; products: Product[] }) {
   const [image, setImage] = useState(product.images[0]);
   const [size, setSize] = useState(product.sizes[0]);
   const [color, setColor] = useState(product.colors[0]);
@@ -36,8 +55,15 @@ export function ProductDetailClient({ product }: { product: Product }) {
     : ["Unstitched"];
 
   useEffect(() => {
+    // Reset selections on product change
+    setImage(product.images[0]);
+    setSize(product.sizes[0]);
+    setColor(product.colors[0]);
+    setSuitStyle(product.sizes.includes("Unstitched") ? "Unstitched" : "Stitched");
+    
     dispatch(viewProduct(product.id));
-  }, [dispatch, product.id]);
+  }, [dispatch, product.id, product]);
+
 
   return (
     <section className="container-lux py-12">
@@ -177,7 +203,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
         <h2 className="font-serif text-5xl">Related Products</h2>
         <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4">
           {products
-            .filter((p) => p.id !== product.id)
+            .filter((p) => p.id !== product.id && (priceTier === "premium" ? p.price >= 5000 : priceTier === "simple" ? p.price < 5000 : true))
             .slice(0, 4)
             .map((p) => (
               <ProductCard key={p.id} product={p} />
