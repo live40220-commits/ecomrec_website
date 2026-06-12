@@ -20,20 +20,20 @@ export function Header() {
   return (
     <>
       <div className="h-10 bg-[#191919] text-white">
-        <div className="container-lux flex h-full items-center justify-center text-[10px] font-bold tracking-[.22em] uppercase">FREE SHIPPING IN PAKISTAN · GLOBAL EXPRESS SHIPPING OVER $350</div>
+        <div className="container-lux flex h-full items-center justify-center text-[10px] font-bold tracking-[.22em] uppercase">FREE SHIPPING IN PAKISTAN - GLOBAL EXPRESS SHIPPING OVER $350</div>
       </div>
       <CollectionSwitcher />
-      <header className="sticky top-0 z-40 border-b border-line bg-background/88 backdrop-blur-xl">
+      <header className="sticky top-0 z-40 border-b border-line bg-background/86 backdrop-blur-2xl">
         <div className="container-lux grid h-24 grid-cols-3 items-center">
-          <button onClick={() => setOpen(true)} className="focus-ring flex items-center gap-3 justify-self-start text-sm uppercase tracking-wide">
+          <button onClick={() => setOpen(true)} className="focus-ring flex items-center gap-3 justify-self-start text-sm uppercase tracking-wide transition hover:text-accent">
             <Menu size={30} strokeWidth={1.6} /> Menu
           </button>
-          <Link href="/" className="justify-self-center text-center">
-            <span className="block font-serif text-4xl tracking-[.28em]">JAHANARA</span>
-            <span className="tracked-luxury block text-[10px] text-muted">Couture</span>
+          <Link href="/" className="group justify-self-center text-center">
+            <span className="block font-serif text-[2rem] leading-none tracking-[.2em] transition group-hover:text-accent md:text-4xl">SIERRA</span>
+            <span className="tracked-luxury mt-1 block text-[10px] text-muted">Collections</span>
           </Link>
           <nav className="flex items-center gap-5 justify-self-end">
-            <Link className="hidden sm:block" href="/shop"><Search strokeWidth={1.7} /></Link>
+            <Link className="hidden transition hover:text-accent sm:block" href="/shop"><Search strokeWidth={1.7} /></Link>
             {user ? (
               <div className="hidden sm:flex items-center gap-3 text-xs tracking-wider uppercase font-medium">
                 <span className="text-muted">Hi, {user.name ? user.name.split(" ")[0] : "Customer"}</span>
@@ -47,11 +47,11 @@ export function Header() {
                 </button>
               </div>
             ) : (
-              <Link className="hidden sm:block" href="/login"><User strokeWidth={1.7} /></Link>
+              <Link className="hidden transition hover:text-accent sm:block" href="/login"><User strokeWidth={1.7} /></Link>
             )}
-            <Link className="relative hidden sm:block" href="/wishlist"><Heart strokeWidth={1.7} />{wishlist.length > 0 && <b className="absolute -right-2 -top-2 text-[10px]">{wishlist.length}</b>}</Link>
-            <Link className="relative" href="/cart"><ShoppingBag strokeWidth={1.7} />{cart.length > 0 && <b className="absolute -right-2 -top-2 text-[10px]">{cart.length}</b>}</Link>
-            <button className="focus-ring" onClick={() => dispatch(toggleDarkMode())} aria-label="Toggle dark mode">{darkMode ? <Sun strokeWidth={1.7} /> : <Moon strokeWidth={1.7} />}</button>
+            <Link className="relative hidden transition hover:text-accent sm:block" href="/wishlist"><Heart strokeWidth={1.7} />{wishlist.length > 0 && <b className="absolute -right-2 -top-2 text-[10px]">{wishlist.length}</b>}</Link>
+            <Link className="relative transition hover:text-accent" href="/cart"><ShoppingBag strokeWidth={1.7} />{cart.length > 0 && <b className="absolute -right-2 -top-2 text-[10px]">{cart.length}</b>}</Link>
+            <button className="focus-ring transition hover:text-accent" onClick={() => dispatch(toggleDarkMode())} aria-label="Toggle dark mode">{darkMode ? <Sun strokeWidth={1.7} /> : <Moon strokeWidth={1.7} />}</button>
           </nav>
         </div>
       </header>

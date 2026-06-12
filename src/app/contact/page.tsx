@@ -16,16 +16,16 @@ export default function ContactPage() {
         <div>
           <div className="grid gap-4">
             <p className="flex gap-3">
-              <MapPin /> Jahanara Couture, 88-B Block, Gulberg III, Lahore, Pakistan
+              <MapPin /> Sierra Collections, 88-B Block, Gulberg III, Lahore, Pakistan
             </p>
             <p className="flex gap-3">
               <Phone /> +92 300 1234567 (WhatsApp Helpline)
             </p>
             <p className="flex gap-3">
-              <Mail /> care@jahanaracouture.com
+              <Mail /> care@sierracollections.com
             </p>
             <p className="flex gap-3">
-              <Share2 /> @jahanaracouture
+              <Share2 /> @sierracollections
             </p>
           </div>
           <div className="mt-8 aspect-[16/10] border border-line bg-[linear-gradient(135deg,#e8dfd6,#b6805d,#151515)] p-6 text-white">

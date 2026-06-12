@@ -19,10 +19,10 @@ export function Footer() {
         </section>
         <section>
           <h3 className="tracked-luxury mb-7 text-sm">About</h3>
-          <p className="max-w-lg leading-8 text-muted">Jahanara Couture is a luxury Pakistani heritage clothing house. Combining intricate tilla and resham hand-embroidery with premium fabrics like pure lawn, silk, and raw velvet, we celebrate South Asian craftsmanship with global express shipping.</p>
+          <p className="max-w-lg leading-8 text-muted">Sierra Collections is a luxury Pakistani heritage clothing house. Combining intricate tilla and resham hand-embroidery with premium fabrics like pure lawn, silk, and raw velvet, we celebrate South Asian craftsmanship with global express shipping.</p>
         </section>
       </div>
-      <p className="tracked-luxury mt-16 text-center text-[11px] text-muted">© 2026 - Jahanara Couture</p>
+      <p className="tracked-luxury mt-16 text-center text-[11px] text-muted">(c) 2026 - Sierra Collections</p>
     </footer>
   );
 }

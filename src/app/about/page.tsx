@@ -9,11 +9,11 @@ export default function AboutPage() {
           <p className="tracked-luxury text-xs text-accent">Our Story</p>
           <h1 className="mt-4 font-serif text-7xl">Crafted by Heritage. Tailored for You.</h1>
           <p className="mt-6 leading-8 text-muted">
-            Jahanara Couture celebrates the rich tapestry of South Asian clothing. Based in Lahore, Pakistan, we blend centuries-old craftsmanship—like gold tilla, hand-blocked prints, and intricate chikankari—with modern luxury design. Our collections highlight the skill of local karigars (artisans) across Multan, Karachi, and Lahore, bringing premium lawn and majestic festive wear to women worldwide.
+            Sierra Collections celebrates the rich tapestry of South Asian clothing. Based in Lahore, Pakistan, we blend centuries-old craftsmanship-like gold tilla, hand-blocked prints, and intricate chikankari-with modern luxury design. Our collections highlight the skill of local karigars (artisans) across Multan, Karachi, and Lahore, bringing premium lawn and majestic festive wear to women worldwide.
           </p>
         </div>
         <div className="relative min-h-[520px]">
-          <Image src={products[1].images[0]} alt="Jahanara Couture Atelier" fill sizes="50vw" className="object-cover" />
+          <Image src={products[1].images[0]} alt="Sierra Collections Atelier" fill sizes="50vw" className="object-cover" />
         </div>
       </div>
       <div className="mt-20 grid gap-6 md:grid-cols-3">

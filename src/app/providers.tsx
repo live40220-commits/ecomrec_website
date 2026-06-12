@@ -26,7 +26,7 @@ function StateHydrator({ children }: { children: ReactNode }) {
             stock: p.inStock ? 10 : 0,
             rating: p.rating || 5,
             reviews: p.reviews || 1,
-            brand: p.brand || "Jahanara"
+            brand: p.brand || "Sierra"
           }));
           dispatch(setProducts(mapped));
         }
@@ -34,7 +34,7 @@ function StateHydrator({ children }: { children: ReactNode }) {
       .catch((e) => console.error("Failed to fetch database products in provider:", e));
 
     // 2. User
-    const storedUser = localStorage.getItem("jahanara_user");
+    const storedUser = localStorage.getItem("sierra_user");
     if (storedUser) {
       try {
         dispatch(loginUser(JSON.parse(storedUser)));
@@ -44,7 +44,7 @@ function StateHydrator({ children }: { children: ReactNode }) {
     }
 
     // 3. Price Tier
-    const storedPriceTier = localStorage.getItem("jahanara_price_tier");
+    const storedPriceTier = localStorage.getItem("SIERRA_price_tier");
     if (storedPriceTier) {
       try {
         dispatch(setPriceTier(JSON.parse(storedPriceTier)));
@@ -54,7 +54,7 @@ function StateHydrator({ children }: { children: ReactNode }) {
     }
 
     // 4. Orders
-    const storedOrders = localStorage.getItem("jahanara_orders");
+    const storedOrders = localStorage.getItem("SIERRA_orders");
     if (storedOrders) {
       try {
         dispatch(setOrders(JSON.parse(storedOrders)));
@@ -67,24 +67,24 @@ function StateHydrator({ children }: { children: ReactNode }) {
   // Sync state back to localStorage on change
   useEffect(() => {
     if (state.products && state.products.length > 0) {
-      localStorage.setItem("jahanara_products", JSON.stringify(state.products));
+      localStorage.setItem("SIERRA_products", JSON.stringify(state.products));
     }
   }, [state.products]);
 
   useEffect(() => {
     if (state.user) {
-      localStorage.setItem("jahanara_user", JSON.stringify(state.user));
+      localStorage.setItem("sierra_user", JSON.stringify(state.user));
     } else {
-      localStorage.removeItem("jahanara_user");
+      localStorage.removeItem("sierra_user");
     }
   }, [state.user]);
 
   useEffect(() => {
-    localStorage.setItem("jahanara_price_tier", JSON.stringify(state.priceTier));
+    localStorage.setItem("SIERRA_price_tier", JSON.stringify(state.priceTier));
   }, [state.priceTier]);
 
   useEffect(() => {
-    localStorage.setItem("jahanara_orders", JSON.stringify(state.orders));
+    localStorage.setItem("SIERRA_orders", JSON.stringify(state.orders));
   }, [state.orders]);
 
   return <>{children}</>;

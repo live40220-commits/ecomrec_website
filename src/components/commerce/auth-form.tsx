@@ -39,23 +39,23 @@ export function AuthForm({ mode }: { mode: "login" | "register" | "forgot" | "re
       }
 
       // 1. Admin login check
-      if (email.toLowerCase() === "admin@jahanara.com" && password === "admin") {
-        const adminUser = { email: "admin@jahanara.com", name: "Administrator", role: "admin" as const };
+      if (email.toLowerCase() === "admin@sierra.com" && password === "admin") {
+        const adminUser = { email: "admin@sierra.com", name: "Administrator", role: "admin" as const };
         dispatch(loginUser(adminUser));
-        localStorage.setItem("jahanara_user", JSON.stringify(adminUser));
+        localStorage.setItem("sierra_user", JSON.stringify(adminUser));
         router.push("/admin");
         return;
       }
 
       // 2. Regular user login check
-      const storedUsers = localStorage.getItem("jahanara_registered_users");
+      const storedUsers = localStorage.getItem("sierra_registered_users");
       const usersList = storedUsers ? JSON.parse(storedUsers) : [];
       const matchedUser = usersList.find((u: any) => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
 
       if (matchedUser) {
         const userSession = { email: matchedUser.email, name: matchedUser.name, role: "user" as const };
         dispatch(loginUser(userSession));
-        localStorage.setItem("jahanara_user", JSON.stringify(userSession));
+        localStorage.setItem("sierra_user", JSON.stringify(userSession));
         router.push("/shop");
       } else {
         setError("Invalid email or password.");
@@ -79,7 +79,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" | "forgot" | "re
       }
 
       // Regular user registration
-      const storedUsers = localStorage.getItem("jahanara_registered_users");
+      const storedUsers = localStorage.getItem("sierra_registered_users");
       const usersList = storedUsers ? JSON.parse(storedUsers) : [];
       const userExists = usersList.some((u: any) => u.email.toLowerCase() === email.toLowerCase());
 
@@ -91,11 +91,11 @@ export function AuthForm({ mode }: { mode: "login" | "register" | "forgot" | "re
       const name = `${firstName} ${lastName}`;
       const newUser = { email, password, name };
       usersList.push(newUser);
-      localStorage.setItem("jahanara_registered_users", JSON.stringify(usersList));
+      localStorage.setItem("sierra_registered_users", JSON.stringify(usersList));
 
       const userSession = { email, name, role: "user" as const };
       dispatch(loginUser(userSession));
-      localStorage.setItem("jahanara_user", JSON.stringify(userSession));
+      localStorage.setItem("sierra_user", JSON.stringify(userSession));
       router.push("/shop");
     } else if (mode === "forgot") {
       setSuccess("If that account exists, a reset link has been simulated to your inbox!");
@@ -109,7 +109,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" | "forgot" | "re
       <div className="mx-auto max-w-xl text-center">
         <h1 className="tracked-luxury text-2xl font-serif text-4xl mb-2">{title}</h1>
         <p className="text-muted mb-8">
-          {mode === "login" ? "Enter your credentials to access your Jahanara account:" : "Please fill in the information below:"}
+          {mode === "login" ? "Enter your credentials to access your Sierra account:" : "Please fill in the information below:"}
         </p>
         
         {error && (
@@ -158,8 +158,8 @@ export function AuthForm({ mode }: { mode: "login" | "register" | "forgot" | "re
         {mode === "login" && (
           <div className="mt-4 p-4 border border-line bg-background/50 rounded text-left text-xs text-muted">
             <p className="font-semibold text-foreground mb-1">Quick Demo Accounts:</p>
-            <p>• Admin: <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded">admin@jahanara.com</code> (Password: <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded">admin</code>)</p>
-            <p>• Customer: Sign up with any email or create one in seconds.</p>
+            <p>- Admin: <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded">admin@sierra.com</code> (Password: <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded">admin</code>)</p>
+            <p>- Customer: Sign up with any email or create one in seconds.</p>
           </div>
         )}
       </div>

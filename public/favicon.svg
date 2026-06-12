@@ -36,7 +36,7 @@
 
   <!-- Brand name in small caps below -->
   <text x="256" y="370" font-family="Georgia, serif" font-size="32" font-weight="normal"
-        fill="#C9A84C" text-anchor="middle" letter-spacing="8">JAHANARA</text>
+        fill="#C9A84C" text-anchor="middle" letter-spacing="8">SIERRA</text>
   <text x="256" y="405" font-family="Georgia, serif" font-size="22" font-weight="normal"
         fill="#ffffff" text-anchor="middle" letter-spacing="12" opacity="0.85">COUTURE</text>
 

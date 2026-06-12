@@ -18,7 +18,7 @@ export function ProductDetailClient({ initialProduct, slug }: { initialProduct?:
   if (!product) {
     return (
       <div className="container-lux py-24 text-center">
-        <p className="text-muted mb-4 font-serif text-2xl">Looking for Jahanara creations...</p>
+        <p className="text-muted mb-4 font-serif text-2xl">Looking for Sierra creations...</p>
         <Link href="/shop" className="text-accent underline uppercase tracking-wider text-xs font-semibold">
           Back to collections
         </Link>
@@ -98,7 +98,7 @@ function ProductDetailContent({ product, priceTier, products }: { product: Produ
           <p className="tracked-luxury text-xs text-accent">{product.category}</p>
           <h1 className="mt-3 font-serif text-5xl md:text-7xl">{product.name}</h1>
           <p className="mt-5 flex items-center gap-1">
-            <Star size={16} fill="currentColor" /> {product.rating} · {product.reviews} reviews
+            <Star size={16} fill="currentColor" /> {product.rating} / {product.reviews} reviews
           </p>
           <p className="mt-6 text-2xl font-semibold">
             {formatPrice(product.price)}{" "}
@@ -163,18 +163,18 @@ function ProductDetailContent({ product, priceTier, products }: { product: Produ
           {hasUnstitched && suitStyle === "Unstitched" && (
             <div className="mt-6 p-4 border border-line bg-background/50 text-xs text-muted leading-6">
               <p className="font-semibold text-foreground mb-1">Unstitched Fabric Details:</p>
-              <p>• Shirt/Kameez fabric: 3.0 Meters premium lawn/chiffon</p>
-              <p>• Trouser fabric: 2.5 Meters dyed cotton/silk</p>
-              <p>• Dupatta fabric: 2.5 Meters printed/embroidered silk/organza</p>
-              <p>• Includes all separate patches and borders as illustrated.</p>
+              <p>- Shirt/Kameez fabric: 3.0 Meters premium lawn/chiffon</p>
+              <p>- Trouser fabric: 2.5 Meters dyed cotton/silk</p>
+              <p>- Dupatta fabric: 2.5 Meters printed/embroidered silk/organza</p>
+              <p>- Includes all separate patches and borders as illustrated.</p>
             </div>
           )}
           {hasUnstitched && suitStyle === "Stitched" && (
             <div className="mt-6 p-4 border border-line bg-background/50 text-xs text-muted leading-6">
               <p className="font-semibold text-foreground mb-1">Stitching Service Details:</p>
-              <p>• Premium boutique tailoring tailored to standard sizing guidelines.</p>
-              <p>• Finished with inner lining (where appropriate) and custom styling trims.</p>
-              <p>• Adds an extra 7-10 business days to processing timelines.</p>
+              <p>- Premium boutique tailoring tailored to standard sizing guidelines.</p>
+              <p>- Finished with inner lining (where appropriate) and custom styling trims.</p>
+              <p>- Adds an extra 7-10 business days to processing timelines.</p>
             </div>
           )}
 

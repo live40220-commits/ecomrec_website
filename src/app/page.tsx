@@ -3,12 +3,18 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ShieldCheck, Sparkles, Truck } from "lucide-react";
+import { motion } from "framer-motion";
 import { ProductCard } from "@/components/commerce/product-card";
 import { SectionHeading } from "@/components/commerce/section-heading";
 import { blogPosts, categories, testimonials } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+
+const reveal = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0 }
+};
 
 export default function Home() {
   const { products, priceTier } = useSelector((state: RootState) => state.commerce);
@@ -23,41 +29,50 @@ export default function Home() {
 
   return (
     <>
-      <section className="relative min-h-[calc(100svh-136px)] overflow-hidden">
-        {hero && <Image src={hero.images[0]} alt="Jahanara Couture Eid Collection" fill priority sizes="100vw" className="object-cover object-[50%_18%]" />}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/58 via-black/20 to-transparent" />
+      <section className="relative min-h-[calc(100svh-136px)] overflow-hidden bg-foreground">
+        {hero && <Image src={hero.images[0]} alt="Sierra Collections Eid Collection" fill priority sizes="100vw" className="animate-[floatSlow_9s_ease-in-out_infinite] scale-105 object-cover object-[50%_18%]" />}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/72 via-black/30 to-black/5" />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent" />
         <div className="container-lux relative flex min-h-[calc(100svh-136px)] items-center pb-12 pt-20">
-          <div className="max-w-2xl text-white">
-            <p className="tracked-luxury mb-5 text-xs">Luxury Lawn & Formals '26</p>
-            <h1 className="font-serif text-6xl leading-none md:text-8xl">Jahanara</h1>
-            <p className="mt-6 max-w-lg text-lg leading-8 text-white/82">Intricate hand-embroidery, premium fabrics, and regal silhouettes celebrating traditional Pakistani craftsmanship.</p>
+          <motion.div variants={reveal} initial="hidden" animate="show" transition={{ duration: 0.8, ease: "easeOut" }} className="max-w-3xl text-white">
+            <p className="tracked-luxury mb-5 text-xs text-white/80">Luxury Lawn & Formals '26</p>
+            <h1 className="font-serif text-6xl leading-none md:text-8xl">Sierra Collections</h1>
+            <p className="mt-6 max-w-xl text-lg leading-8 text-white/84">Refined embroidery, fluid premium fabrics, and heirloom-inspired silhouettes for women who prefer elegance with presence.</p>
+            <div className="mt-8 grid max-w-xl grid-cols-3 border-y border-white/24 py-4 text-center">
+              {["Artisan Finish", "Global Delivery", "Limited Drops"].map((item) => (
+                <span className="tracked-luxury px-2 text-[10px] text-white/78" key={item}>{item}</span>
+              ))}
+            </div>
             <div className="mt-9 flex flex-wrap gap-4">
               <Link href="/shop"><Button>Shop Collection <ArrowRight size={16} /></Button></Link>
               <Link href="/about"><Button variant="outline" className="border-white text-white hover:bg-white hover:text-black">Our Story</Button></Link>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
       <div className="overflow-hidden border-y border-line bg-foreground py-4 text-background">
-        <div className="animate-[marquee_24s_linear_infinite] whitespace-nowrap tracked-luxury text-xs">NEW ARRIVALS · LUXURY LAWN · FESTIVE CHIFFON · READY TO WEAR PRET · BRIDAL COUTURE · FREE SHIPPING IN PAKISTAN · GLOBAL EXPRESS DELIVERIES · </div>
+        <div className="animate-[marquee_24s_linear_infinite] whitespace-nowrap tracked-luxury text-xs">NEW ARRIVALS - LUXURY LAWN - FESTIVE CHIFFON - READY TO WEAR PRET - BRIDAL COUTURE - FREE SHIPPING IN PAKISTAN - GLOBAL EXPRESS DELIVERIES - </div>
       </div>
-      <section className="container-lux py-20">
+      <motion.section variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-120px" }} transition={{ duration: 0.65 }} className="container-lux py-20">
         <SectionHeading eyebrow="Featured" title="The Collection Edit" text="Explore our signature silhouettes, fine hand-loom fabrics, and intricately detailed embroidery designed for formal elegance." />
         <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4 lg:gap-8">{filteredProducts.slice(0, 4).map((p) => <ProductCard key={p.id} product={p} />)}</div>
-      </section>
+      </motion.section>
       <section className="container-lux grid gap-4 py-10 md:grid-cols-4">
         {categories.slice(0, 4).map((cat, i) => (
-          <Link href="/shop" key={cat} className="group relative min-h-72 overflow-hidden bg-neutral-100">
-            <Image src={(filteredProducts[i % filteredProducts.length] || products[0]).images[0]} alt={cat} fill sizes="25vw" className="object-cover transition duration-700 group-hover:scale-105" />
-            <div className="absolute inset-0 bg-black/25" />
-            <h3 className="tracked-luxury absolute bottom-6 left-6 right-6 text-sm text-white">{cat}</h3>
+          <Link href="/shop" key={cat} className="lux-sheen group relative min-h-80 overflow-hidden bg-neutral-100">
+            <Image src={(filteredProducts[i % filteredProducts.length] || products[0]).images[0]} alt={cat} fill sizes="25vw" className="object-cover transition duration-700 group-hover:scale-110" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/72 via-black/18 to-transparent" />
+            <div className="absolute bottom-6 left-6 right-6 z-10">
+              <p className="tracked-luxury text-[10px] text-white/70">Sierra Edit</p>
+              <h3 className="mt-2 font-serif text-3xl text-white">{cat}</h3>
+            </div>
           </Link>
         ))}
       </section>
       <section className="container-lux py-20">
-        <div className="glass grid gap-8 p-8 md:grid-cols-[1fr_1.4fr] md:p-12">
-          <div><p className="tracked-luxury text-xs text-accent">Limited Offer</p><h2 className="mt-3 font-serif text-5xl">Eid Festive Savings</h2><p className="mt-5 text-muted">Get 15% off selected ready-to-wear and unstitched luxury pieces. Use coupon <b>JAHANARA15</b> at checkout.</p></div>
-          <div className="grid grid-cols-3 gap-3 text-center"><div className="border border-line p-6"><b className="text-4xl">08</b><p className="tracked-luxury mt-2 text-[10px]">Hours</p></div><div className="border border-line p-6"><b className="text-4xl">42</b><p className="tracked-luxury mt-2 text-[10px]">Minutes</p></div><div className="border border-line p-6"><b className="text-4xl">19</b><p className="tracked-luxury mt-2 text-[10px]">Seconds</p></div></div>
+        <div className="premium-surface grid gap-8 overflow-hidden p-8 md:grid-cols-[1fr_1.4fr] md:p-12">
+          <div><p className="tracked-luxury text-xs text-accent">Limited Offer</p><h2 className="mt-3 font-serif text-5xl">Festive Private Sale</h2><p className="mt-5 text-muted">Get 15% off selected ready-to-wear and unstitched luxury pieces. Use coupon <b>SIERRA15</b> at checkout.</p></div>
+          <div className="grid grid-cols-3 gap-3 text-center">{[["08", "Hours"], ["42", "Minutes"], ["19", "Seconds"]].map(([value, label]) => <div className="border border-line bg-background/45 p-6 transition hover:-translate-y-1 hover:border-accent" key={label}><b className="font-serif text-4xl">{value}</b><p className="tracked-luxury mt-2 text-[10px]">{label}</p></div>)}</div>
         </div>
       </section>
       <section className="container-lux py-16">
@@ -69,21 +84,21 @@ export default function Home() {
         </div>
       </section>
       <section className="border-y border-line py-16">
-        <div className="container-lux grid gap-8 md:grid-cols-3">{[[Truck, "Worldwide Express Delivery"], [ShieldCheck, "Secure Payment Options"], [Sparkles, "Artisan Craftsmanship"]].map(([Icon, text]) => <div className="flex items-center gap-4" key={String(text)}><Icon className="text-accent" /><span className="tracked-luxury text-sm">{String(text)}</span></div>)}</div>
+        <div className="container-lux grid gap-8 md:grid-cols-3">{[[Truck, "Worldwide Express Delivery"], [ShieldCheck, "Secure Payment Options"], [Sparkles, "Artisan Craftsmanship"]].map(([Icon, text]) => <div className="premium-surface flex items-center gap-4 p-6" key={String(text)}><Icon className="text-accent" /><span className="tracked-luxury text-sm">{String(text)}</span></div>)}</div>
       </section>
       <section className="container-lux py-20">
         <SectionHeading eyebrow="Clients" title="Atelier Reviews" />
-        <div className="grid gap-4 md:grid-cols-3">{testimonials.map((t) => <blockquote className="glass p-7 leading-8" key={t}>"{t}"</blockquote>)}</div>
+        <div className="grid gap-4 md:grid-cols-3">{testimonials.map((t) => <blockquote className="glass p-7 leading-8 transition hover:-translate-y-1" key={t}>"{t}"</blockquote>)}</div>
       </section>
       <section className="container-lux py-16">
         <SectionHeading eyebrow="Journal" title="Editorial Notes" />
-        <div className="grid gap-6 md:grid-cols-3">{blogPosts.map((b) => <Link href={`/blog/${b.slug}`} className="group" key={b.slug}><div className="relative aspect-[4/3] overflow-hidden"><Image src={b.image} alt={b.title} fill sizes="33vw" className="object-cover transition group-hover:scale-105" /></div><p className="tracked-luxury mt-5 text-xs text-accent">{b.category}</p><h3 className="mt-2 font-serif text-3xl">{b.title}</h3><p className="mt-2 text-muted">{b.excerpt}</p></Link>)}</div>
+        <div className="grid gap-6 md:grid-cols-3">{blogPosts.map((b) => <Link href={`/blog/${b.slug}`} className="group" key={b.slug}><div className="lux-sheen relative aspect-[4/3] overflow-hidden"><Image src={b.image} alt={b.title} fill sizes="33vw" className="object-cover transition duration-700 group-hover:scale-105" /></div><p className="tracked-luxury mt-5 text-xs text-accent">{b.category}</p><h3 className="mt-2 font-serif text-3xl">{b.title}</h3><p className="mt-2 text-muted">{b.excerpt}</p></Link>)}</div>
       </section>
       <section className="container-lux py-16">
         <div className="grid grid-cols-2 gap-2 md:grid-cols-6">
           {(filteredProducts.length >= 6 ? filteredProducts.slice(0, 6) : products.slice(0, 6)).map((p) => (
             <div className="relative aspect-square overflow-hidden" key={p.id}>
-              <Image src={p.images[0]} alt="Instagram gallery" fill sizes="16vw" className="object-cover" />
+              <Image src={p.images[0]} alt="Instagram gallery" fill sizes="16vw" className="object-cover transition duration-700 hover:scale-110" />
             </div>
           ))}
         </div>

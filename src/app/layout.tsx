@@ -9,13 +9,13 @@ const sans = Manrope({ subsets: ["latin"], variable: "--font-sans", display: "sw
 const serif = Cormorant_Garamond({ subsets: ["latin"], variable: "--font-serif", display: "swap" });
 
 export const metadata: Metadata = {
-  title: { default: "Jahanara Couture | Luxury Pakistani Heritage & Festive Wear", template: "%s | Jahanara Couture" },
-  description: "Explore Jahanara Couture's exquisite collection of luxury Pakistani suits, unstitched lawn, festive chiffon Peshwas, ready-to-wear pret kurtis, and bespoke bridal wear.",
+  title: { default: "Sierra Collections | Luxury Pakistani Heritage & Festive Wear", template: "%s | Sierra Collections" },
+  description: "Explore Sierra Collections' refined edit of luxury Pakistani suits, unstitched lawn, festive chiffon Peshwas, ready-to-wear pret kurtis, and bespoke bridal wear.",
   icons: {
     icon: "/favicon.svg"
   },
   openGraph: {
-    title: "Jahanara Couture",
+    title: "Sierra Collections",
     description: "Premium luxury Pakistani heritage and festive wear with global express delivery.",
     type: "website"
   }
