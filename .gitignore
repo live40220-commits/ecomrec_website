@@ -27,8 +27,7 @@ pnpm-debug.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Prisma SQLite database (local dev only)
-prisma/dev.db
+# Prisma SQLite database
 prisma/dev.db-journal
 
 # uploads (user-uploaded images)
