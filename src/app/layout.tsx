@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
+
 import { Playfair_Display, Poppins } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { CartDrawer } from "@/components/commerce/cart-drawer";
+import dynamic from "next/dynamic";
+const AuthListener = dynamic(() => import("@/components/auth/AuthListener"), { ssr: false });
 
 const sans = Poppins({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700"], variable: "--font-sans", display: "swap" });
 const serif = Playfair_Display({ subsets: ["latin"], variable: "--font-serif", display: "swap" });
@@ -27,10 +30,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" suppressHydrationWarning>
       <body className={`${sans.variable} ${serif.variable} antialiased`}>
         <Providers>
-          <Header />
-          <CartDrawer />
-          <main>{children}</main>
-          <Footer />
+          <AuthListener>
+            <Header />
+            <CartDrawer />
+            <main>{children}</main>
+            <Footer />
+          </AuthListener>
         </Providers>
       </body>
     </html>

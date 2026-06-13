@@ -8,7 +8,7 @@ import { loginUser } from "@/store/store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { BrandLogo } from "@/components/layout/brand-logo";
-import { ApiResponse, AuthUser } from "@/types/auth";
+import { authService } from "@/services/authService";
 
 export function AuthForm({ mode }: { mode: "login" | "register" | "forgot" | "reset" }) {
   const router = useRouter();
@@ -42,29 +42,13 @@ export function AuthForm({ mode }: { mode: "login" | "register" | "forgot" | "re
         return;
       }
 
-      // 1. Admin login check
-      if (email.toLowerCase() === "admin@saweracollection.com" && password === "admin") {
-        const adminUser = { id: "admin-demo", email: "admin@saweracollection.com", name: "Administrator", role: "admin" as const };
-        dispatch(loginUser(adminUser));
-        localStorage.setItem("jahanara_user", JSON.stringify(adminUser));
-        router.push("/admin");
+      const res = await authService.login(email, password);
+      if (!res.ok || !res.user) {
+        setError(res.message || "Invalid email or password.");
         return;
       }
-
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password })
-      });
-      const result = await response.json() as ApiResponse<AuthUser>;
-
-      if (!response.ok || !result.ok || !result.data) {
-        setError(result.message || "Invalid email or password.");
-        return;
-      }
-
-      dispatch(loginUser(result.data));
-      localStorage.setItem("jahanara_user", JSON.stringify(result.data));
+      dispatch(loginUser(res.user));
+      localStorage.setItem("jahanara_user", JSON.stringify(res.user));
       router.push(redirectTo);
     } else if (mode === "register") {
       if (!firstName || !lastName) {
@@ -84,27 +68,18 @@ export function AuthForm({ mode }: { mode: "login" | "register" | "forgot" | "re
         return;
       }
 
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, firstName, lastName, password })
-      });
-      const result = await response.json() as ApiResponse<AuthUser>;
-
-      if (!response.ok || !result.ok || !result.data) {
-        setError(result.message || "Could not create your account.");
+      const res = await authService.register(email, password, firstName, lastName);
+      if (!res.ok || !res.user) {
+        setError(res.message || "Could not create your account.");
         return;
       }
-
-      dispatch(loginUser(result.data));
-      localStorage.setItem("jahanara_user", JSON.stringify(result.data));
+      dispatch(loginUser(res.user));
+      localStorage.setItem("jahanara_user", JSON.stringify(res.user));
       router.push("/shop");
     } else if (mode === "forgot") {
       router.push("/forgot-password");
     } else if (mode === "reset") {
       router.push("/reset-password");
-    }
-  };
 
   return (
     <section className="container-lux py-24">
