@@ -13,6 +13,14 @@ export default function ReturnExchangePage() {
           <p>
             At Sawera Collection, we strive to ensure that you are completely satisfied with your purchase. If for any reason you are not, we offer a straightforward return and exchange process.
           </p>
+          <div className="my-8 border-l-4 border-accent pl-6 italic">
+            <p className="mb-2">
+              In accordance with Islamic principles of trade, accommodating returns and exchanges (Iqala) is highly encouraged and permissible (Jaiz). 
+            </p>
+            <p>
+              Furthermore, Islam strictly forbids deceit or dishonesty in any transaction. We kindly ask that all items be returned honestly in their original, pristine condition—exactly as they were provided to you—without any intentional damage or concealed flaws.
+            </p>
+          </div>
           <h2 className="text-xl font-semibold text-foreground mt-8 mb-4">1. Eligibility for Returns & Exchanges</h2>
           <p>
             Items must be returned within 14 days of delivery. They must be unworn, unwashed, and in their original condition with all tags attached. Customized or made-to-measure items are not eligible for returns or exchanges unless there is a manufacturing defect.
