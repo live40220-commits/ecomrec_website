@@ -22,7 +22,7 @@ export function BrandLogo({ className, imageClassName, showTagline = false, href
       />
       {showTagline && (
         <p className="font-serif mt-2 text-center text-sm italic tracking-[.08em] text-muted">
-          Made for Her, Inspired by Grace
+          Made for Her. Inspired by Grace
         </p>
       )}
     </div>

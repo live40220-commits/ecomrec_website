@@ -7,14 +7,17 @@ import { CartClient } from "@/components/commerce/cart-client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/utils";
+import { sendOrderNotification } from "@/lib/emailjs";
+import { OrderNotificationData } from "@/types/email";
 import Link from "next/link";
-import { CheckCircle2, ShoppingBag, Truck } from "lucide-react";
+import { CheckCircle2, RotateCcw, ShoppingBag, Truck } from "lucide-react";
 
 export default function CheckoutPage() {
   const dispatch = useDispatch();
   const { cart, products } = useSelector((s: RootState) => s.commerce);
 
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [zip, setZip] = useState("");
@@ -29,22 +32,57 @@ export default function CheckoutPage() {
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [generatedId, setGeneratedId] = useState("");
   const [error, setError] = useState("");
+  const [emailMessage, setEmailMessage] = useState("");
+  const [requestMessage, setRequestMessage] = useState("");
+  const [placedOrderNotificationData, setPlacedOrderNotificationData] = useState<OrderNotificationData | null>(null);
 
   const subtotal = cart.reduce((acc, item) => {
     const p = products.find((prod) => prod.id === item.id);
     return acc + (p ? p.price * item.qty : 0);
   }, 0);
 
-  const handlePlaceOrder = (e: React.FormEvent) => {
+  const buildOrderNotificationData = (orderId: string, actionType: OrderNotificationData["actionType"]): OrderNotificationData => {
+    const orderedProducts = cart
+      .map((item) => {
+        const product = products.find((prod) => prod.id === item.id);
+        if (!product) return null;
+
+        return {
+          productName: product.name,
+          quantity: item.qty,
+          size: item.size,
+          color: item.color,
+          unitPrice: product.price,
+          lineTotal: product.price * item.qty
+        };
+      })
+      .filter((item): item is NonNullable<typeof item> => Boolean(item));
+
+    return {
+      customerName: name,
+      customerEmail: email,
+      customerPhone: phone,
+      orderId,
+      products: orderedProducts,
+      totalAmount: subtotal,
+      shippingAddress: `${address}, ${city}, ${zip}`,
+      dateTime: new Date().toLocaleString(),
+      actionType
+    };
+  };
+
+  const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setEmailMessage("");
+    setRequestMessage("");
 
     if (cart.length === 0) {
       setError("Your cart is empty.");
       return;
     }
 
-    if (!name || !address || !city || !zip || !phone) {
+    if (!name || !email || !address || !city || !zip || !phone) {
       setError("Please fill in all shipping details.");
       return;
     }
@@ -60,6 +98,7 @@ export default function CheckoutPage() {
       items: cart,
       total: subtotal,
       name,
+      email,
       address,
       city,
       zip,
@@ -68,10 +107,27 @@ export default function CheckoutPage() {
       status: "Processing"
     };
 
+    const notificationData = buildOrderNotificationData(orderId, "Placed");
+
     dispatch(createOrder(newOrder));
+    setPlacedOrderNotificationData(notificationData);
+    const notification = await sendOrderNotification(notificationData);
+    setEmailMessage(notification.message);
     dispatch(clearCart());
     setGeneratedId(orderId);
     setOrderPlaced(true);
+  };
+
+  const handleOrderRequest = async (actionType: "Replacement" | "Return") => {
+    if (!placedOrderNotificationData) return;
+
+    setRequestMessage("");
+    const notification = await sendOrderNotification({
+      ...placedOrderNotificationData,
+      actionType,
+      dateTime: new Date().toLocaleString()
+    });
+    setRequestMessage(notification.message);
   };
 
   if (orderPlaced) {
@@ -90,6 +146,7 @@ export default function CheckoutPage() {
             <Truck size={18} className="text-accent" /> Shipment Details:
           </p>
           <p>• <b>Recipient:</b> {name}</p>
+          <p>• <b>Email:</b> {email}</p>
           <p>• <b>Delivery Address:</b> {address}, {city}, {zip}</p>
           <p>• <b>Phone Number:</b> {phone}</p>
           <p>• <b>Payment Method:</b> {payMethod === "cod" ? "Cash on Delivery" : "Prepaid Credit Card"}</p>
@@ -101,6 +158,27 @@ export default function CheckoutPage() {
             </div>
           )}
         </div>
+
+        {emailMessage && (
+          <div className={`mb-6 rounded border p-4 text-sm ${emailMessage.includes("failed") ? "border-yellow-200 bg-yellow-50 text-yellow-800" : "border-green-200 bg-green-50 text-green-700"}`}>
+            {emailMessage}
+          </div>
+        )}
+
+        <div className="mb-8 grid gap-3 sm:grid-cols-2">
+          <Button variant="outline" onClick={() => handleOrderRequest("Replacement")} className="gap-2">
+            <RotateCcw size={16} /> Request Replacement
+          </Button>
+          <Button variant="outline" onClick={() => handleOrderRequest("Return")} className="gap-2">
+            <RotateCcw size={16} /> Request Return / Refund
+          </Button>
+        </div>
+
+        {requestMessage && (
+          <div className={`mb-6 rounded border p-4 text-sm ${requestMessage.includes("failed") ? "border-yellow-200 bg-yellow-50 text-yellow-800" : "border-green-200 bg-green-50 text-green-700"}`}>
+            {requestMessage}
+          </div>
+        )}
 
         <Link href="/shop">
           <Button className="px-8 py-3">
@@ -124,6 +202,7 @@ export default function CheckoutPage() {
           )}
           
           <Input placeholder="Full name" value={name} onChange={(e) => setName(e.target.value)} />
+          <Input placeholder="Email address" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
           <Input placeholder="Address" value={address} onChange={(e) => setAddress(e.target.value)} />
           <div className="grid gap-4 sm:grid-cols-2">
             <Input placeholder="City" value={city} onChange={(e) => setCity(e.target.value)} />

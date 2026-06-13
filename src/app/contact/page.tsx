@@ -1,9 +1,44 @@
+"use client";
+
+import { useState } from "react";
 import { Mail, MapPin, Phone, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input, Textarea } from "@/components/ui/input";
 import { BrandLogo } from "@/components/layout/brand-logo";
+import { sendContactNotification } from "@/lib/emailjs";
 
 export default function ContactPage() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
+  const [statusMessage, setStatusMessage] = useState("");
+  const [isSending, setIsSending] = useState(false);
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setStatusMessage("");
+    setIsSending(true);
+
+    const result = await sendContactNotification({
+      name,
+      email,
+      phone,
+      message,
+      dateTime: new Date().toLocaleString()
+    });
+
+    setStatusMessage(result.message);
+    setIsSending(false);
+
+    if (result.ok) {
+      setName("");
+      setEmail("");
+      setPhone("");
+      setMessage("");
+    }
+  };
+
   return (
     <section className="container-lux py-14">
       <div className="mb-10">
@@ -11,11 +46,17 @@ export default function ContactPage() {
         <h1 className="font-serif text-6xl">Contact Us</h1>
       </div>
       <div className="grid gap-10 lg:grid-cols-2">
-        <form className="premium-surface grid gap-4 p-6">
-          <Input placeholder="Name" />
-          <Input placeholder="E-mail" />
-          <Textarea placeholder="Message" />
-          <Button>Send Message</Button>
+        <form className="premium-surface grid gap-4 p-6" onSubmit={handleSubmit}>
+          <Input placeholder="Name" value={name} onChange={(event) => setName(event.target.value)} required />
+          <Input placeholder="E-mail" type="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
+          <Input placeholder="Phone number" type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} />
+          <Textarea placeholder="Message" value={message} onChange={(event) => setMessage(event.target.value)} required />
+          {statusMessage && (
+            <div className={`rounded border p-3 text-sm ${statusMessage.includes("successfully") ? "border-green-200 bg-green-50 text-green-700" : "border-yellow-200 bg-yellow-50 text-yellow-800"}`}>
+              {statusMessage}
+            </div>
+          )}
+          <Button type="submit" disabled={isSending}>{isSending ? "Sending..." : "Send Message"}</Button>
         </form>
         <div>
           <div className="grid gap-4">

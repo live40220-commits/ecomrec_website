@@ -27,7 +27,7 @@ export function Header() {
           <Link href="/" className="justify-self-center text-center">
             <span className="block font-serif text-4xl tracking-[.28em]">SAWERA</span>
             <span className="tracked-luxury block text-[10px] text-muted">COLLECTION</span>
-            <span className="block text-[9px] italic text-muted/80 mt-1 font-serif tracking-widest">Made for Her, Inspired by Grace</span>
+            <span className="block text-[9px] italic text-muted/80 mt-1 font-serif tracking-widest">Made for Her. Inspired by Grace</span>
           </Link>
           <nav className="flex items-center gap-5 justify-self-end">
             <Link className="hidden sm:block" href="/shop"><Search strokeWidth={1.7} /></Link>

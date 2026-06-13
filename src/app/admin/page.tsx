@@ -8,6 +8,8 @@ import { Product } from "@/data/products";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/utils";
+import { sendOrderNotification } from "@/lib/emailjs";
+import { OrderNotificationData } from "@/types/email";
 import Image from "next/image";
 import Link from "next/link";
 import { 
@@ -45,6 +47,37 @@ export default function AdminPage() {
   const [notification, setNotification] = useState("");
 
   const sizeOptions = ["Unstitched", "XS", "S", "M", "L", "XL"];
+
+  const buildAdminOrderNotificationData = (orderId: string, actionType: OrderNotificationData["actionType"]): OrderNotificationData | null => {
+    const order = orders.find((o) => o.id === orderId);
+    if (!order) return null;
+
+    return {
+      customerName: order.name,
+      customerEmail: order.email || "Not provided",
+      customerPhone: order.phone,
+      orderId: order.id,
+      products: order.items
+        .map((item) => {
+          const product = products.find((p) => p.id === item.id);
+          if (!product) return null;
+
+          return {
+            productName: product.name,
+            quantity: item.qty,
+            size: item.size,
+            color: item.color,
+            unitPrice: product.price,
+            lineTotal: product.price * item.qty
+          };
+        })
+        .filter((item): item is NonNullable<typeof item> => Boolean(item)),
+      totalAmount: order.total,
+      shippingAddress: `${order.address}, ${order.city}, ${order.zip}`,
+      dateTime: new Date().toLocaleString(),
+      actionType
+    };
+  };
 
   // Authenticate user
   useEffect(() => {
@@ -143,9 +176,21 @@ export default function AdminPage() {
     }
   };
 
-  const handleOrderStatusChange = (id: string, status: string) => {
+  const handleOrderStatusChange = async (id: string, status: string) => {
     dispatch(updateOrderStatus({ id, status }));
     showToast(`Order #${id} status updated to ${status}`);
+
+    if (status === "Cancelled") {
+      const notificationData = buildAdminOrderNotificationData(id, "Cancelled");
+      if (!notificationData) return;
+
+      const notification = await sendOrderNotification(notificationData);
+      if (notification.ok) {
+        showToast(`Order #${id} cancelled and admin email sent.`);
+      } else {
+        showToast(`Order #${id} cancelled. ${notification.message}`);
+      }
+    }
   };
 
   const handleDeleteOrderClick = (id: string) => {
@@ -312,7 +357,7 @@ export default function AdminPage() {
                       <option>Luxury Lawn</option>
                       <option>Printed Lawn</option>
                       <option>Festive Chiffon</option>
-                      <option>Ready To Wear</option>
+                      <option>Everyday Essentials</option>
                       <option>Bridal & Couture</option>
                       <option>Winter Festive</option>
                       <option>Sale</option>
@@ -525,6 +570,7 @@ export default function AdminPage() {
                         <td className="py-4 font-semibold text-accent">#{o.id}</td>
                         <td className="py-4">
                           <div className="text-sm font-medium">{o.name}</div>
+                          <div className="text-xs text-muted max-w-[180px] truncate">{o.email || "Email not provided"}</div>
                           <div className="text-xs text-muted max-w-[180px] truncate">{o.address}, {o.city}</div>
                           <div className="text-xs text-muted">{o.phone}</div>
                         </td>

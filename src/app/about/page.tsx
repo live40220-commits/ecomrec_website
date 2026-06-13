@@ -9,7 +9,7 @@ export default function AboutPage() {
         <div>
           <BrandLogo className="mb-8 items-start" imageClassName="w-52" showTagline />
           <p className="tracked-luxury text-xs text-accent">Our Story</p>
-          <h1 className="mt-4 font-serif text-6xl md:text-7xl">Made for Her, Inspired by Grace.</h1>
+          <h1 className="mt-4 font-serif text-6xl md:text-7xl">Made for Her. Inspired by Grace.</h1>
           <p className="mt-6 leading-8 text-muted">
             Sawera Collection is a luxury feminine fashion house shaped by soft elegance, premium modest style, and graceful confidence. Based in Lahore, Pakistan, we blend delicate embellishment, refined fabrics, and modern silhouettes for women and girls who want fashion that feels polished, feminine, and timeless.
           </p>

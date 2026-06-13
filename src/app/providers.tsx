@@ -4,6 +4,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { ReactNode, useMemo, useEffect } from "react";
 import { store, RootState, setProducts, setOrders, loginUser, setPriceTier } from "@/store/store";
+import { products as catalogProducts } from "@/data/products";
+
+const PRODUCTS_STORAGE_KEY = "jahanara_products";
+const PRODUCTS_STORAGE_VERSION_KEY = "jahanara_products_version";
+const PRODUCTS_STORAGE_VERSION = "2026-06-13-everyday-essentials";
 
 function StateHydrator({ children }: { children: ReactNode }) {
   const dispatch = useDispatch();
@@ -11,15 +16,21 @@ function StateHydrator({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // 1. Products
-    const storedProducts = localStorage.getItem("jahanara_products");
-    if (storedProducts) {
+    const storedProducts = localStorage.getItem(PRODUCTS_STORAGE_KEY);
+    const storedProductsVersion = localStorage.getItem(PRODUCTS_STORAGE_VERSION_KEY);
+    if (storedProducts && storedProductsVersion === PRODUCTS_STORAGE_VERSION) {
       try {
         dispatch(setProducts(JSON.parse(storedProducts)));
       } catch (e) {
         console.error("Failed to parse stored products:", e);
+        dispatch(setProducts(catalogProducts));
+        localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(catalogProducts));
+        localStorage.setItem(PRODUCTS_STORAGE_VERSION_KEY, PRODUCTS_STORAGE_VERSION);
       }
     } else {
-      localStorage.setItem("jahanara_products", JSON.stringify(state.products));
+      dispatch(setProducts(catalogProducts));
+      localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(catalogProducts));
+      localStorage.setItem(PRODUCTS_STORAGE_VERSION_KEY, PRODUCTS_STORAGE_VERSION);
     }
 
     // 2. User
@@ -56,7 +67,8 @@ function StateHydrator({ children }: { children: ReactNode }) {
   // Sync state back to localStorage on change
   useEffect(() => {
     if (state.products && state.products.length > 0) {
-      localStorage.setItem("jahanara_products", JSON.stringify(state.products));
+      localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(state.products));
+      localStorage.setItem(PRODUCTS_STORAGE_VERSION_KEY, PRODUCTS_STORAGE_VERSION);
     }
   }, [state.products]);
 

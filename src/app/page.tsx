@@ -35,8 +35,8 @@ export default function Home() {
         <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent" />
         <div className="container-lux relative flex min-h-[calc(100svh-180px)] items-center pb-12 pt-20">
           <motion.div variants={reveal} initial="hidden" animate="show" transition={{ duration: 0.8, ease: "easeOut" }} className="max-w-3xl text-white">
-            <p className="brand-script mb-4 text-lg text-white/86">Made for Her, Inspired by Grace</p>
             <h1 className="font-serif text-6xl leading-none md:text-8xl">Sawera Collection</h1>
+            <p className="brand-script mt-4 text-lg text-white/86">Made for Her. Inspired by Grace</p>
             <p className="mt-6 max-w-xl text-lg leading-8 text-white/86">Luxury women&apos;s fashion crafted with elegance, confidence, and a soft feminine grace.</p>
             <div className="mt-8 grid max-w-xl grid-cols-3 border-y border-white/24 py-4 text-center">
               {["Soft Luxury", "Modest Elegance", "Premium Craft"].map((item) => (
@@ -51,7 +51,7 @@ export default function Home() {
         </div>
       </section>
       <div className="overflow-hidden border-y border-line bg-foreground py-4 text-background">
-        <div className="animate-[marquee_24s_linear_infinite] whitespace-nowrap tracked-luxury text-xs">SAWERA COLLECTION - MADE FOR HER, INSPIRED BY GRACE - NEW ARRIVALS - MODEST FASHION - BLUSH EDITS - PREMIUM PRET - FESTIVE FORMALS - </div>
+        <div className="animate-[marquee_24s_linear_infinite] whitespace-nowrap tracked-luxury text-xs">SAWERA COLLECTION - MADE FOR HER. INSPIRED BY GRACE - NEW ARRIVALS - MODEST FASHION - BLUSH EDITS - PREMIUM PRET - FESTIVE FORMALS - </div>
       </div>
       <motion.section variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-120px" }} transition={{ duration: 0.65 }} className="container-lux py-20">
         <SectionHeading eyebrow="Featured" title="The Grace Edit" text="Explore soft silhouettes, premium fabrics, and delicate detailing designed for modern women and girls who love refined fashion." />
@@ -71,7 +71,7 @@ export default function Home() {
       </section>
       <section className="container-lux py-20">
         <div className="botanical-panel premium-surface grid gap-8 overflow-hidden p-8 md:grid-cols-[1fr_1.4fr] md:p-12">
-          <div className="relative z-10"><p className="tracked-luxury text-xs text-accent">Private Boutique Offer</p><h2 className="mt-3 font-serif text-5xl">Graceful Festive Savings</h2><p className="mt-5 text-muted">Get 15% off selected ready-to-wear and unstitched luxury pieces. Use coupon <b>SAWERA15</b> at checkout.</p></div>
+          <div className="relative z-10"><p className="tracked-luxury text-xs text-accent">Private Boutique Offer</p><h2 className="mt-3 font-serif text-5xl">Graceful Festive Savings</h2><p className="mt-5 text-muted">Get 15% off selected everyday and unstitched luxury pieces. Use coupon <b>SAWERA15</b> at checkout.</p></div>
           <div className="grid grid-cols-3 gap-3 text-center">{[["08", "Hours"], ["42", "Minutes"], ["19", "Seconds"]].map(([value, label]) => <div className="border border-line bg-background/45 p-6 transition hover:-translate-y-1 hover:border-accent" key={label}><b className="font-serif text-4xl">{value}</b><p className="tracked-luxury mt-2 text-[10px]">{label}</p></div>)}</div>
         </div>
       </section>
@@ -93,7 +93,7 @@ export default function Home() {
       <section className="container-lux py-16">
         <div className="botanical-panel premium-surface grid gap-8 p-8 md:grid-cols-[1fr_auto] md:items-center md:p-12">
           <div className="relative z-10">
-            <p className="brand-script text-xl text-accent">Made for Her, Inspired by Grace</p>
+            <p className="brand-script text-xl text-accent">Made for Her. Inspired by Grace</p>
             <h2 className="mt-3 font-serif text-5xl">A softer kind of confidence.</h2>
             <p className="mt-4 max-w-2xl leading-8 text-muted">Sawera Collection brings premium modest fashion, polished occasion wear, and elegant everyday pieces into one graceful wardrobe.</p>
           </div>
