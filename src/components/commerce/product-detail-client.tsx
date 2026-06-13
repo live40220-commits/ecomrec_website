@@ -7,7 +7,7 @@ import { Product } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/utils";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, RootState, toggleWishlist, viewProduct } from "@/store/store";
+import { addToCart, RootState, toggleWishlist, viewProduct, openCartDrawer } from "@/store/store";
 import { ProductCard } from "./product-card";
 import Link from "next/link";
 
@@ -179,7 +179,7 @@ function ProductDetailContent({ product, priceTier, products }: { product: Produ
           )}
 
           <div className="mt-8 grid gap-3 sm:grid-cols-[1fr_auto]">
-            <Button onClick={() => dispatch(addToCart({ id: product.id, qty: 1, size, color }))}>
+            <Button onClick={() => { dispatch(addToCart({ id: product.id, qty: 1, size, color })); dispatch(openCartDrawer()); }}>
               Add to Cart
             </Button>
             <Button variant="outline" onClick={() => dispatch(toggleWishlist(product.id))}>
@@ -188,7 +188,7 @@ function ProductDetailContent({ product, priceTier, products }: { product: Produ
           </div>
           <Button
             className="mt-3 w-full bg-accent border-accent text-white hover:bg-foreground"
-            onClick={() => dispatch(addToCart({ id: product.id, qty: 1, size, color }))}
+            onClick={() => { dispatch(addToCart({ id: product.id, qty: 1, size, color })); dispatch(openCartDrawer()); }}
           >
             Buy Now
           </Button>

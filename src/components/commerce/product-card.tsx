@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { Product } from "@/data/products";
 import { formatPrice } from "@/lib/utils";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, RootState, toggleWishlist } from "@/store/store";
+import { addToCart, RootState, toggleWishlist, openCartDrawer } from "@/store/store";
 
 export function ProductCard({ product }: { product: Product }) {
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
         <div className="flex gap-2">
           <button className="focus-ring" onClick={() => dispatch(toggleWishlist(product.id))} aria-label="Wishlist"><Heart size={20} fill={wished ? "currentColor" : "none"} /></button>
-          <button className="focus-ring" onClick={() => dispatch(addToCart({ id: product.id, qty: 1, size: product.sizes[0], color: product.colors[0] }))} aria-label="Add to cart"><ShoppingBag size={20} /></button>
+          <button className="focus-ring" onClick={() => { dispatch(addToCart({ id: product.id, qty: 1, size: product.sizes[0], color: product.colors[0] })); dispatch(openCartDrawer()); }} aria-label="Add to cart"><ShoppingBag size={20} /></button>
         </div>
       </div>
     </motion.article>

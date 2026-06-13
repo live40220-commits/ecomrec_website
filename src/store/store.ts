@@ -10,6 +10,7 @@ type CommerceState = {
   wishlist: string[];
   recentlyViewed: string[];
   darkMode: boolean;
+  cartDrawerOpen: boolean;
   products: Product[];
   user: User | null;
   priceTier: "all" | "premium" | "simple";
@@ -21,6 +22,7 @@ const initialState: CommerceState = {
   wishlist: [],
   recentlyViewed: [],
   darkMode: false,
+  cartDrawerOpen: false,
   products: initialProducts,
   user: null,
   priceTier: "all",
@@ -31,6 +33,12 @@ const commerceSlice = createSlice({
   name: "commerce",
   initialState,
   reducers: {
+    openCartDrawer: (state) => {
+      state.cartDrawerOpen = true;
+    },
+    closeCartDrawer: (state) => {
+      state.cartDrawerOpen = false;
+    },
     addToCart: (state, action: PayloadAction<Line>) => {
       const found = state.cart.find((i) => i.id === action.payload.id && i.size === action.payload.size && i.color === action.payload.color);
       if (found) found.qty += action.payload.qty;
@@ -93,6 +101,8 @@ const commerceSlice = createSlice({
 });
 
 export const {
+  openCartDrawer,
+  closeCartDrawer,
   addToCart,
   updateQty,
   removeFromCart,
