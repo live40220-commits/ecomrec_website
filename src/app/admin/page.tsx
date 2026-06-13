@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { RootState, addProduct, updateProduct, deleteProduct, logoutUser } from "@/store/store";
+import { RootState, addProduct, updateProduct, deleteProduct, logoutUser, updateOrderStatus, deleteOrder } from "@/store/store";
 import { Product } from "@/data/products";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -140,6 +140,18 @@ export default function AdminPage() {
     if (confirm("Are you sure you want to delete this product?")) {
       dispatch(deleteProduct(id));
       showToast("Product deleted successfully!");
+    }
+  };
+
+  const handleOrderStatusChange = (id: string, status: string) => {
+    dispatch(updateOrderStatus({ id, status }));
+    showToast(`Order #${id} status updated to ${status}`);
+  };
+
+  const handleDeleteOrderClick = (id: string) => {
+    if (confirm("Are you sure you want to delete this order?")) {
+      dispatch(deleteOrder(id));
+      showToast("Order deleted successfully!");
     }
   };
 
@@ -504,6 +516,7 @@ export default function AdminPage() {
                       <th className="py-4 font-medium">Method</th>
                       <th className="py-4 font-medium">Total</th>
                       <th className="py-4 font-medium">Status</th>
+                      <th className="py-4 font-medium text-right">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -519,9 +532,25 @@ export default function AdminPage() {
                         <td className="py-4 text-xs">Cash on Delivery</td>
                         <td className="py-4 text-sm font-semibold">{formatPrice(o.total)}</td>
                         <td className="py-4">
-                          <span className="bg-yellow-50 dark:bg-yellow-950/20 border border-yellow-200 text-yellow-700 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded">
-                            {o.status}
-                          </span>
+                          <select 
+                            value={o.status}
+                            onChange={(e) => handleOrderStatusChange(o.id, e.target.value)}
+                            className="bg-yellow-50 dark:bg-yellow-950/20 border border-yellow-200 text-yellow-700 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded outline-none cursor-pointer"
+                          >
+                            <option value="Processing">Processing</option>
+                            <option value="Shipped">Shipped</option>
+                            <option value="Delivered">Delivered</option>
+                            <option value="Cancelled">Cancelled</option>
+                          </select>
+                        </td>
+                        <td className="py-4 text-right">
+                          <button
+                            onClick={() => handleDeleteOrderClick(o.id)}
+                            className="p-2 border border-red-200 text-red-600 rounded hover:bg-red-50 transition inline-block"
+                            title="Delete order"
+                          >
+                            <Trash2 size={14} />
+                          </button>
                         </td>
                       </tr>
                     ))}

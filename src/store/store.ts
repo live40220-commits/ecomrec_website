@@ -82,6 +82,12 @@ const commerceSlice = createSlice({
     },
     createOrder: (state, action: PayloadAction<Order>) => {
       state.orders.push(action.payload);
+    },
+    updateOrderStatus: (state, action: PayloadAction<{ id: string; status: string }>) => {
+      state.orders = state.orders.map(o => o.id === action.payload.id ? { ...o, status: action.payload.status } : o);
+    },
+    deleteOrder: (state, action: PayloadAction<string>) => {
+      state.orders = state.orders.filter(o => o.id !== action.payload);
     }
   }
 });
@@ -102,7 +108,9 @@ export const {
   loginUser,
   logoutUser,
   setPriceTier,
-  createOrder
+  createOrder,
+  updateOrderStatus,
+  deleteOrder
 } = commerceSlice.actions;
 
 export const store = configureStore({ reducer: { commerce: commerceSlice.reducer } });
