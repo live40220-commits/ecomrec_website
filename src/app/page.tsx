@@ -5,8 +5,9 @@ import Link from "next/link";
 import { Eye, ShieldCheck, Sparkles, Truck } from "lucide-react";
 import { motion } from "framer-motion";
 import { ProductCard } from "@/components/commerce/product-card";
+import { ProductStrip } from "@/components/commerce/product-strip";
 import { SectionHeading } from "@/components/commerce/section-heading";
-import { blogPosts, categories, testimonials } from "@/data/products";
+import { blogPosts, categories, getProductsByBadge, getProductsByCategory, testimonials } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { HeroSlider } from "@/components/ui/HeroSlider";
 import { CountdownTimer } from "@/components/ui/CountdownTimer";
@@ -34,6 +35,13 @@ export default function Home() {
 
   const sliderProducts = filteredProducts.length >= 3 ? filteredProducts : products;
 
+  const bestSellers = getProductsByBadge(products, "Best Seller");
+  const celebrityEdit = getProductsByBadge(products, "Celebrity");
+  const unstitchedDresses = getProductsByCategory(products, "Unstitched");
+  const premiumNewArrivals = products.filter((p) =>
+    ["sc_tehwaar_anayra_amal", "sc_amour_bin_ilyas_186a", "sc_amour_bin_ilyas_187b", "sc_push_pawan_zarizaa_titli"].includes(p.id)
+  );
+
   return (
     <>
       <HeroSlider products={sliderProducts} />
@@ -47,6 +55,29 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      <FadeIn className="container-lux py-16">
+        <SectionHeading eyebrow="Most Loved" title="Best Sellers" />
+        <ProductStrip products={bestSellers} />
+      </FadeIn>
+
+      <FadeIn className="container-lux py-16">
+        <SectionHeading
+          eyebrow="Star Style"
+          title="Celebrity Edit"
+          text="Embroidered raw silk, luxury lawn, and chiffon pieces inspired by iconic festive looks."
+        />
+        <ProductStrip products={celebrityEdit} showFabric />
+      </FadeIn>
+
+      <FadeIn className="container-lux py-16">
+        <SectionHeading eyebrow="Just In" title="Premium New Arrivals" />
+        <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4 lg:gap-8">
+          {premiumNewArrivals.map((p) => (
+            <ProductCard key={p.id} product={p} />
+          ))}
+        </div>
+      </FadeIn>
 
       <FadeIn className="container-lux py-20">
         <SectionHeading
@@ -93,6 +124,15 @@ export default function Home() {
           </div>
           <CountdownTimer />
         </div>
+      </FadeIn>
+
+      <FadeIn className="container-lux py-16">
+        <SectionHeading
+          eyebrow="Shop by Fabric"
+          title="Unstitched Dresses"
+          text="Express shipping on selected unstitched lawn and festive sets — perfect for tailors and custom fits."
+        />
+        <ProductStrip products={unstitchedDresses} />
       </FadeIn>
 
       <FadeIn className="container-lux py-16">
