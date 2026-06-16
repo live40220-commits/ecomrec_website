@@ -32,19 +32,37 @@ export default function Home() {
   
   return (
     <>
-      <section className="relative min-h-[calc(100svh-180px)] overflow-hidden">
+      <section className="relative min-h-[calc(100svh-160px)] overflow-hidden bg-neutral-900">
+        {/* Carousel fills the full section */}
         <ImageCarousel images={heroImages} alt="Sawera Collection luxury women's fashion" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#2a1818]/76 via-[#6f4144]/34 to-white/10 z-10" />
-        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent z-10" />
-    <div className="container-lux relative flex items-center justify-center h-full">
-
-          <motion.div variants={reveal} initial="hidden" animate="show" transition={{ duration: 0.8, ease: "easeOut" }} className="max-w-3xl text-white">
-            <h1 className="font-serif text-6xl leading-none md:text-8xl">Sawera Collection</h1>
-            <p className="brand-script mt-4 text-lg text-white/86">Made for Her. Inspired by Grace</p>
-            <p className="mt-6 max-w-xl text-lg leading-8 text-white/86">Luxury women&apos;s fashion crafted with elegance, confidence, and a soft feminine grace.</p>
-            <div className="mt-9 flex flex-wrap gap-4">
-              <Link href="/shop"><Button>Shop Now <ArrowRight size={16} /></Button></Link>
-              <Link href="/shop?sort=new"><Button variant="outline" className="border-white bg-white/10 text-white hover:bg-white hover:text-foreground">New Arrivals</Button></Link>
+        {/* Dark gradient overlays for readability */}
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 z-10 h-32 bg-gradient-to-t from-background to-transparent" />
+        {/* Text & Buttons – z-20 so they sit above overlays */}
+        <div className="container-lux absolute inset-0 z-20 flex items-center">
+          <motion.div
+            variants={reveal}
+            initial="hidden"
+            animate="show"
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="max-w-2xl text-white"
+          >
+            <h1 className="font-serif text-6xl leading-tight md:text-8xl drop-shadow-lg">Sawera Collection</h1>
+            <p className="brand-script mt-4 text-xl text-white/90">Made for Her. Inspired by Grace</p>
+            <p className="mt-6 max-w-xl text-base leading-8 text-white/80">
+              Luxury women&apos;s fashion crafted with elegance, confidence, and a soft feminine grace.
+            </p>
+            <div className="mt-10 flex flex-wrap gap-4">
+              <Link href="/shop">
+                <Button size="lg" className="bg-white text-foreground hover:bg-white/90 font-semibold px-8">
+                  Shop Now <ArrowRight size={16} className="ml-2" />
+                </Button>
+              </Link>
+              <Link href="/shop?sort=new">
+                <Button size="lg" variant="outline" className="border-2 border-white bg-white/10 text-white hover:bg-white hover:text-foreground font-semibold px-8">
+                  New Arrivals
+                </Button>
+              </Link>
             </div>
           </motion.div>
         </div>

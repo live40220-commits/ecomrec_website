@@ -16,7 +16,7 @@ export default function ImageCarousel({ images, alt = "Carousel image" }: ImageC
     if (!images || images.length <= 1) return;
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % images.length);
-    }, 5000);
+    }, 7000);
     return () => clearInterval(timer);
   }, [images]);
 
