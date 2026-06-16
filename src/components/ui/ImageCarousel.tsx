@@ -13,6 +13,9 @@ interface ImageCarouselProps {
 export default function ImageCarousel({ images, alt = "Carousel image" }: ImageCarouselProps) {
   const [index, setIndex] = useState(0);
 
+  // Debug: log images length
+  console.log("ImageCarousel images:", images);
+
   // Cycle images every 5 seconds
   useEffect(() => {
     const timer = setInterval(() => {
@@ -25,8 +28,7 @@ export default function ImageCarousel({ images, alt = "Carousel image" }: ImageC
     return null;
   }
 
-  return (
-    <div className="relative w-full h-full overflow-hidden">
+  return <div className="absolute inset-0 z-0">
       <AnimatePresence initial={false} mode="wait">
         <motion.div
           key={index}

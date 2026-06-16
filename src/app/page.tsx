@@ -27,20 +27,17 @@ export default function Home() {
   });
 
   const hero = filteredProducts[0] || products[0];
-  // Collect a few hero images for the carousel (first three products)
-  const heroImages = [
-    hero.images[0],
-    filteredProducts[1]?.images[0],
-    filteredProducts[2]?.images[0]
-  ].filter(Boolean);
+  // Use first three product images for the hero carousel
+  const heroImages = products.slice(0, 3).map(p => p.images[0]).filter(Boolean);
   
   return (
     <>
-      <section className="relative min-h-[calc(100svh-180px)] overflow-hidden bg-foreground">
+      <section className="relative min-h-[calc(100svh-180px)] overflow-hidden">
         <ImageCarousel images={heroImages} alt="Sawera Collection luxury women's fashion" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#2a1818]/76 via-[#6f4144]/34 to-white/10" />
-        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent" />
-        <div className="container-lux relative flex min-h-[calc(100svh-180px)] items-center pb-12 pt-20">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#2a1818]/76 via-[#6f4144]/34 to-white/10 z-10" />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent z-10" />
+    <div className="container-lux relative flex items-center justify-center h-full">
+
           <motion.div variants={reveal} initial="hidden" animate="show" transition={{ duration: 0.8, ease: "easeOut" }} className="max-w-3xl text-white">
             <h1 className="font-serif text-6xl leading-none md:text-8xl">Sawera Collection</h1>
             <p className="brand-script mt-4 text-lg text-white/86">Made for Her. Inspired by Grace</p>
