@@ -16,8 +16,8 @@ export function CollectionSwitcher() {
   };
 
   return (
-    <div className="flex items-center justify-center border-b border-line bg-white/60 py-1.5 text-xs backdrop-blur-xl">
-      <div className="flex rounded-full border border-line bg-white/70 p-1 shadow-sm">
+    <div className="flex items-center justify-center border-b border-line bg-background/80 py-1.5 text-xs backdrop-blur-xl">
+      <div className="flex rounded-full border border-line bg-panel p-1 shadow-sm">
         <button
           onClick={() => handleToggle("premium")}
           className={`flex items-center gap-1.5 rounded-full px-5 py-1.5 font-medium tracking-wide uppercase transition duration-300 ${
@@ -26,7 +26,7 @@ export function CollectionSwitcher() {
               : "text-muted hover:text-foreground"
           }`}
         >
-          <Sparkles size={12} className={activeTier === "premium" ? "text-accent" : ""} />
+          <Sparkles size={12} className={activeTier === "premium" ? "text-white" : ""} />
           Luxury Atelier <span className="text-[10px] opacity-75">(Rs. 5,000+)</span>
         </button>
         <button

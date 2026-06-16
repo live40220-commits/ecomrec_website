@@ -6,7 +6,7 @@ import { BrandLogo } from "./brand-logo";
 
 export function Footer() {
   return (
-    <footer className="mt-24 border-t border-line bg-white/46 py-14">
+    <footer className="mt-24 border-t border-line bg-panel/60 py-14 backdrop-blur-sm">
       <div className="container-lux grid gap-12 md:grid-cols-[1.15fr_0.7fr_1fr_1.1fr]">
         <section>
           <BrandLogo className="items-start" imageClassName="w-48" showTagline />
