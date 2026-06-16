@@ -88,6 +88,7 @@ export function Header() {
             </button>
           </nav>
         </div>
+        <CollectionSwitcher />
       </header>
 
       {/* Mobile drawer */}
