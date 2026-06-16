@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Eye, ShieldCheck, Sparkles, Truck } from "lucide-react";
 import { motion } from "framer-motion";
+import ImageCarousel from "@/components/ui/ImageCarousel";
 import { ProductCard } from "@/components/commerce/product-card";
 import { SectionHeading } from "@/components/commerce/section-heading";
 import { blogPosts, categories, testimonials } from "@/data/products";
@@ -30,7 +31,7 @@ export default function Home() {
   return (
     <>
       <section className="relative min-h-[calc(100svh-180px)] overflow-hidden bg-foreground">
-        {hero && <Image src={hero.images[0]} alt="Sawera Collection luxury women's fashion" fill priority sizes="100vw" className="animate-[floatSlow_9s_ease-in-out_infinite] scale-105 object-cover object-[50%_18%]" />}
+        <ImageCarousel images={hero.images} alt="Sawera Collection luxury women's fashion" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#2a1818]/76 via-[#6f4144]/34 to-white/10" />
         <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent" />
         <div className="container-lux relative flex min-h-[calc(100svh-180px)] items-center pb-12 pt-20">
