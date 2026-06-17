@@ -24,12 +24,12 @@ export function Header() {
 
       {/* Main navigation bar */}
       <header className="sticky top-0 z-40 border-b border-line bg-background/88 backdrop-blur-xl">
-        <div className="container-lux grid h-10 grid-cols-3 items-center">
+        <div className="container-lux grid h-20 md:h-24 grid-cols-3 items-center overflow-visible">
           <button
             onClick={() => setOpen(true)}
             className="focus-ring flex items-center gap-3 justify-self-start text-sm uppercase tracking-wide"
           >
-            <Menu size={22} strokeWidth={1.6} />
+            <Menu size={22} strokeWidth={1.6} /> Menu
           </button>
 
           <Link href="/" className="justify-self-center flex flex-col items-center text-center">
