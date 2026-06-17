@@ -34,7 +34,7 @@ export function Header() {
 
           <Link href="/" className="justify-self-center text-center">
             <span className="block font-serif text-2xl tracking-[.28em]">SAWERA</span>
-            <span className="tracked-luxury block text-[9px] text-muted">COLLECTION</span>
+            <span className="tracked-luxury block text-xs font-semibold text-foreground/80">COLLECTION</span>
           </Link>
 
           <nav className="flex items-center gap-5 justify-self-end">
