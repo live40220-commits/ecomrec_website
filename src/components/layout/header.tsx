@@ -32,9 +32,10 @@ export function Header() {
             <Menu size={22} strokeWidth={1.6} />
           </button>
 
-          <Link href="/" className="justify-self-center text-center">
-            <span className="block font-serif text-2xl tracking-[.28em]">SAWERA</span>
-            <span className="tracked-luxury block text-xs font-semibold text-foreground/80">COLLECTION</span>
+          <Link href="/" className="justify-self-center flex flex-col items-center text-center">
+            <span className="block font-serif text-4xl tracking-[.28em]">SAWERA</span>
+            <span className="tracked-luxury block text-[10px] text-gray-500">COLLECTION</span>
+            <span className="block text-[9px] italic text-gray-500/80 mt-1 font-serif tracking-widest">Made for Her. Inspired by Grace</span>
           </Link>
 
           <nav className="flex items-center gap-5 justify-self-end">
